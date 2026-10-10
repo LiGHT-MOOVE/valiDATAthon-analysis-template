@@ -1,0 +1,22 @@
+project:
+  name: clinical_ai_evaluation
+  random_seed: 42
+
+paths:
+  raw_data: data/raw
+  #interim_data: data/interim
+  processed_data: data/processed
+  outputs: outputs
+
+data:
+  answers: answers.csv
+  reviews: reviews.csv
+  country: country1
+
+analysis:
+  bootstrap_iterations: 2000
+  confidence_level: 0.95
+
+visualization:
+  format: pdf
+  dpi: 300
