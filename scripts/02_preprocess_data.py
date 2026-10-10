@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from analysis.data.load import load_dataset
+from analysis.data.load import check_input_files, load_dataset
 from analysis.data.preprocess import (
     calculate_duplicate_diagnostics,
     create_analytic_dataset,
@@ -10,12 +10,12 @@ from analysis.data.validate import (
     validate_processed_data,
     validate_raw_data,
 )
-from config import load_config
+from config import ROOT, load_config, validate_config
 from utils.print_console import print_step
 
-ROOT = Path(__file__).resolve().parents[1]
-
 config = load_config()
+validate_config(config)
+
 RAW_DATA_PATH = config["paths"]["raw_data"]
 PROCESSED_DATA_PATH = config["paths"]["processed_data"]
 
@@ -33,6 +33,8 @@ def main():
     PATH_TO_PROCESSED_DATA_FOLDER.mkdir(parents=True, exist_ok=True)
     DIAGNOSTICS_FOLDER.mkdir(parents=True, exist_ok=True)
 
+    # check input files
+    check_input_files(PATH_TO_ANSWERS, PATH_TO_REVIEWS)
     # 1. Load raw data
     print_step(1, "Load raw data")
     answers_raw = load_dataset(PATH_TO_ANSWERS)
@@ -68,13 +70,12 @@ def main():
     print_step(5, " Save outputs")
     # Preserve your existing filenames and formats.
     clean_reviews.to_csv(
-        PATH_TO_PROCESSED_DATA_FOLDER / "malawi_phc_preprocessed_reviews.csv",
+        PATH_TO_PROCESSED_DATA_FOLDER / "preprocessed_reviews.csv",
         index=False,
         na_rep="",
     )
     duplicate_reviews.to_csv(
-        PATH_TO_PROCESSED_DATA_FOLDER
-        / "malawi_phc_preprocessed_reviews_duplicates.csv",
+        PATH_TO_PROCESSED_DATA_FOLDER / "reviews_duplicates.csv",
         index=False,
         na_rep="",
     )
@@ -83,7 +84,7 @@ def main():
     print_step(6, "Print summary")
     # Preserve your existing summary information.
     with open(
-        DIAGNOSTICS_FOLDER / "malawi_phc_diagnostics_summary.txt",
+        DIAGNOSTICS_FOLDER / "diagnostics_summary.txt",
         "w",
         encoding="utf-8",
     ) as f:
