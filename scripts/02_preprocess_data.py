@@ -1,3 +1,4 @@
+import argparse
 from pathlib import Path
 
 from analysis.data.load import check_input_files, load_dataset
@@ -16,29 +17,71 @@ from utils.print_console import print_step
 config = load_config()
 validate_config(config)
 
-RAW_DATA_PATH = config["paths"]["raw_data"]
-PROCESSED_DATA_PATH = config["paths"]["processed_data"]
 
-ANSWERS_DATA = config["data"]["answers"]
-REVIEWS_DATA = config["data"]["reviews"]
+def parse_args():
 
-PATH_TO_ANSWERS = ROOT / RAW_DATA_PATH / ANSWERS_DATA
-PATH_TO_REVIEWS = ROOT / RAW_DATA_PATH / REVIEWS_DATA
-PATH_TO_PROCESSED_DATA_FOLDER = ROOT / PROCESSED_DATA_PATH
-DIAGNOSTICS_FOLDER = PATH_TO_PROCESSED_DATA_FOLDER / "diagnostics"
+    parser = argparse.ArgumentParser(
+        description="Preprocess clinical AI evaluation data for one country."
+    )
+
+    parser.add_argument(
+        "--country",
+        required=True,
+        help="Country to preprocess, e.g. malawi, kenya, or tanzania.",
+    )
+
+    return parser.parse_args()
+
+
+def get_country_config(config, country_name):
+    countries = config["data"]["countries"]
+
+    for country in countries:
+        if country["name"].lower() == country_name.lower():
+            return country
+
+    available_countries = [country["name"] for country in countries]
+
+    raise ValueError(
+        f"Country '{country_name}' is not configured. "
+        f"Available countries: {', '.join(available_countries)}"
+    )
 
 
 def main():
+    args = parse_args()
+    config = load_config()
+
+    country_config = get_country_config(
+        config,
+        args.country,
+    )
+
+    raw_data_path = ROOT / config["paths"]["raw_data"]
+    answers_path = raw_data_path / country_config["answers"]
+    reviews_path = raw_data_path / country_config["reviews"]
+
+    processed_data_path = ROOT / config["paths"]["processed_data"]
+    diagnostics_path = processed_data_path / "diagnostics"
+
+    # Check that the input files exist before loading them.
+
+    for path in [answers_path, reviews_path]:
+        if not path.is_file():
+            raise FileNotFoundError(f"Input file not found: {path}")
+
+    # Create output directories.
+
     # create folders
-    PATH_TO_PROCESSED_DATA_FOLDER.mkdir(parents=True, exist_ok=True)
-    DIAGNOSTICS_FOLDER.mkdir(parents=True, exist_ok=True)
+    processed_data_path.mkdir(parents=True, exist_ok=True)
+    diagnostics_path.mkdir(parents=True, exist_ok=True)
 
     # check input files
-    check_input_files(PATH_TO_ANSWERS, PATH_TO_REVIEWS)
+    check_input_files(answers_path, reviews_path)
     # 1. Load raw data
     print_step(1, "Load raw data")
-    answers_raw = load_dataset(PATH_TO_ANSWERS)
-    reviews_raw = load_dataset(PATH_TO_REVIEWS)
+    answers_raw = load_dataset(answers_path)
+    reviews_raw = load_dataset(reviews_path)
 
     # 2. Validate raw data
     print_step(2, "Validate raw data")
@@ -49,7 +92,7 @@ def main():
     # 3. Preprocess reviews
     print_step(3, "Preprocess reviews")
     reviews_reshaped = create_analytic_dataset(
-        reviews_raw_validated, answers_raw_validated
+        reviews_raw_validated, answers_raw_validated, country_config["name"]
     )
     duplicate_reviews, diagnostics_summary = calculate_duplicate_diagnostics(
         reviews_reshaped
@@ -70,12 +113,12 @@ def main():
     print_step(5, " Save outputs")
     # Preserve your existing filenames and formats.
     clean_reviews.to_csv(
-        PATH_TO_PROCESSED_DATA_FOLDER / "preprocessed_reviews.csv",
+        processed_data_path / f"{country_config['name']}_preprocessed_reviews.csv",
         index=False,
         na_rep="",
     )
     duplicate_reviews.to_csv(
-        PATH_TO_PROCESSED_DATA_FOLDER / "reviews_duplicates.csv",
+        processed_data_path / f"{country_config['name']}_reviews_duplicates.csv",
         index=False,
         na_rep="",
     )
@@ -84,7 +127,7 @@ def main():
     print_step(6, "Print summary")
     # Preserve your existing summary information.
     with open(
-        DIAGNOSTICS_FOLDER / "diagnostics_summary.txt",
+        diagnostics_path / f"{country_config['name']}_diagnostics_summary.txt",
         "w",
         encoding="utf-8",
     ) as f:
@@ -102,7 +145,7 @@ def main():
     print(f"Unique answers:    {clean_reviews['answer_id'].nunique():,}")
 
     print()
-    print(f"Processed data saved to: {PATH_TO_PROCESSED_DATA_FOLDER}")
+    print(f"Processed data saved to: {processed_data_path}")
     print("=" * 70)
 
 

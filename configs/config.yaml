@@ -4,14 +4,22 @@ project:
 
 paths:
   raw_data: data/raw
-  #interim_data: data/interim
   processed_data: data/processed
   outputs: outputs
 
 data:
-  answers: answers.csv
-  reviews: reviews.csv
-  country: country1
+  countries:
+    - name: kenya
+      answers: Kenya PHC - Answers.csv
+      reviews: Kenya PHC - Reviews.csv
+
+    - name: malawi
+      answers: answers.csv
+      reviews: reviews.csv
+
+    - name: ethiopia
+      answers: EMped Ethiopia - Answers.csv
+      reviews: EMped Ethiopia - Reviews.csv
 
 analysis:
   bootstrap_iterations: 2000

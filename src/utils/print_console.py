@@ -22,3 +22,7 @@ def print_warning(message):
 
 def print_error(message):
     console.print(f"[bold red]✗ {message}")
+
+
+def print_header(message):  # to complete
+    console.print(f"[bold green]✓[/bold green] {message}")

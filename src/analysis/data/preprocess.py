@@ -2,7 +2,6 @@ import pandas as pd
 
 
 # Helper functions
-# =============================================================================
 def calculate_preferred(row):
     vote = row["vote"]
     placement = row["placement"]
@@ -33,7 +32,6 @@ def clean_column_name(column):
 
 
 # Transformation functions
-# =============================================================================
 def reshape_reviews(reviews_validated):
     # Select the columns corresponding to the Left and Right evaluations
     left_right_columns = [
@@ -139,8 +137,7 @@ def join_answer_metadata(reviews_reshaped, answers_validated):
 
 
 # Main preprocessing function
-# =============================================================================
-def create_analytic_dataset(reviews_validated, answers_validated):
+def create_analytic_dataset(reviews_validated, answers_validated, country_name):
 
     reviews_reshaped = reshape_reviews(reviews_validated)
     reviews_answers_reshaped = join_answer_metadata(reviews_reshaped, answers_validated)
@@ -213,7 +210,7 @@ def create_analytic_dataset(reviews_validated, answers_validated):
         "review_id",
         range(1, len(reviews_answers_reshaped) + 1),
     )
-
+    reviews_answers_reshaped["reviewer_country"] = country_name
     reviews_answers_reshaped.columns = [
         clean_column_name(col) for col in reviews_answers_reshaped.columns
     ]
