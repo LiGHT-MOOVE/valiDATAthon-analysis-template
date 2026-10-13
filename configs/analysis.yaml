@@ -1,0 +1,40 @@
+project:
+  name: clinical_ai_evaluation
+  random_seed: 42
+
+paths:
+  outputs: outputs
+  analysis_file: data/processed/all_countries_reviews.csv
+
+analysis:
+  safety_var: safety_score
+  save_outputs: true
+  ni_margin: -0.20
+  ni_alpha: 0.025
+  bootstrap_iterations: 2000
+  bootstrap_seed: 42
+  confidence_level: 0.95
+  use_cache: true
+
+visualization:
+  figure_width: 8
+  figure_height: 5
+  dpi: 300
+
+models:
+  friendly_names:
+    Human Benchmark: Human Benchmark
+    Qwen 3: Qwen 3
+
+criteria:
+  friendly_names:
+    clinical_soundness_score: Clinical soundness
+    safety_score: Safety
+
+model_categories:
+  Human Benchmark: Human
+  Qwen 3: Open-weight LLM
+
+category_colors:
+  Human: "#555555"
+  Open-weight LLM: "#1c9487"

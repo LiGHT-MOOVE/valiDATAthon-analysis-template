@@ -3,7 +3,9 @@ import pandas as pd
 from config import ROOT, load_config, validate_config
 from utils.print_console import print_info, print_step, print_success
 
-config = load_config()
+CONFIG_PATH = ROOT / "configs/config.yaml"
+
+config = load_config(CONFIG_PATH)
 validate_config(config)
 
 
@@ -45,9 +47,6 @@ def merge_country_datasets() -> pd.DataFrame:
 
 
 def main():
-
-    config = load_config()
-
     processed_data_path = ROOT / config["paths"]["processed_data"]
 
     processed_data_path.mkdir(

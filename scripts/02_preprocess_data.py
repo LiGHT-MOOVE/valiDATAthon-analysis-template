@@ -11,46 +11,18 @@ from analysis.data.validate import (
     validate_processed_data,
     validate_raw_data,
 )
-from config import ROOT, load_config, validate_config
+from config import ROOT, get_country_config, load_config, validate_config
+from utils.general import parse_args
 from utils.print_console import print_step
 
-config = load_config()
+CONFIG_PATH = ROOT / "configs/config.yaml"
+
+config = load_config(CONFIG_PATH)
 validate_config(config)
-
-
-def parse_args():
-
-    parser = argparse.ArgumentParser(
-        description="Preprocess clinical AI evaluation data for one country."
-    )
-
-    parser.add_argument(
-        "--country",
-        required=True,
-        help="Country to preprocess, e.g. malawi, kenya, or tanzania.",
-    )
-
-    return parser.parse_args()
-
-
-def get_country_config(config, country_name):
-    countries = config["data"]["countries"]
-
-    for country in countries:
-        if country["name"].lower() == country_name.lower():
-            return country
-
-    available_countries = [country["name"] for country in countries]
-
-    raise ValueError(
-        f"Country '{country_name}' is not configured. "
-        f"Available countries: {', '.join(available_countries)}"
-    )
 
 
 def main():
     args = parse_args()
-    config = load_config()
 
     country_config = get_country_config(
         config,
@@ -107,6 +79,7 @@ def main():
         for col in clean_reviews.columns
         if not col.endswith("_score") and col != "comments"
     ]
+    print(non_null_cols)
     validate_processed_data(clean_reviews, score_cols, non_null_cols)
 
     # 5. Save outputs

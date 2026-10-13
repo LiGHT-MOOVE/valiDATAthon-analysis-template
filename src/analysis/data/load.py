@@ -5,9 +5,6 @@ import pandas as pd
 from utils.print_console import print_error, print_success
 
 
-import pandas as pd
-
-
 def load_dataset(path):
     path = Path(path)
 

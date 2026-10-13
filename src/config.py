@@ -3,7 +3,6 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG_PATH = ROOT / "configs/config.yaml"
 
 
 def validate_config(config):
@@ -73,12 +72,27 @@ def validate_config(config):
         country_names.append(country_name)
 
 
-def load_config():
-    if not CONFIG_PATH.exists():
-        raise FileNotFoundError(f"Configuration file not found: {CONFIG_PATH}")
-    with open(CONFIG_PATH, encoding="utf-8") as file:
+def load_config(config_path):
+    if not config_path.exists():
+        raise FileNotFoundError(f"Configuration file not found: {config_path}")
+    with open(config_path) as file:
         config = yaml.safe_load(file)
     if not isinstance(config, dict) or not config:
-        raise ValueError(f"Configuration file is empty or invalid: {CONFIG_PATH}")
+        raise ValueError(f"Configuration file is empty or invalid: {config_path}")
 
     return config
+
+
+def get_country_config(config, country_name):
+    countries = config["data"]["countries"]
+
+    for country in countries:
+        if country["name"].lower() == country_name.lower():
+            return country
+
+    available_countries = [country["name"] for country in countries]
+
+    raise ValueError(
+        f"Country '{country_name}' is not configured. "
+        f"Available countries: {', '.join(available_countries)}"
+    )

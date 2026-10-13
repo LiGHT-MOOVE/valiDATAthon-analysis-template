@@ -1,5 +1,7 @@
 import pandas as pd
 
+from analysis.config import AnalysisConfig
+
 
 # Helper functions
 def calculate_preferred(row):
@@ -323,3 +325,21 @@ def remove_duplicate_reviews(reviews_reshaped):
     )
 
     return clean_reviews
+
+
+def prepare_data(df: pd.DataFrame, config: AnalysisConfig) -> pd.DataFrame:
+    """Normalize model names first, then assign model categories."""
+
+    data = df.copy()
+    data["model_raw"] = data["model"]
+    data["model"] = data["model"].replace(config.friendly_models)
+    if "opposing_model" in data:
+        data["opposing_model_raw"] = data["opposing_model"]
+        data["opposing_model"] = data["opposing_model"].replace(config.friendly_models)
+
+    # Allow category mappings keyed by either raw or friendly model name.
+    category = data["model"].map(config.model_categories)
+    category = category.fillna(data["model_raw"].map(config.model_categories))
+    data["model_category"] = category
+    data["review_timestamp"] = pd.to_datetime(data["review_timestamp"])
+    return data
