@@ -13,6 +13,11 @@ from analysis.statistics.model_comparisons import (
     fit_mixed_models_by_country_and_criterion,
     fit_safety_pairwise_contrasts_by_country,
 )
+from analysis.statistics.response_position_effect import (
+    count_position_effect_on_criterion_score,
+    count_preferred_side_chosen,
+    get_percentage_of_chosen_response_scored_higher,
+)
 from analysis.statistics.win_loss import head_to_head_data, win_loss_summary
 from utils.print_console import print_step, print_success
 
@@ -73,7 +78,7 @@ def main():
         "safety_pairwise_comparisons",
         analysis_config,
     )
-    """
+
     print_step(7, "Win loss analysis")
 
     win_loss = win_loss_summary(df)
@@ -91,7 +96,21 @@ def main():
         "win_loss_analysis",
         analysis_config,
     )
+    """
+    print_step(8, "Position effect analysis")
 
+    preferred_side_stats = count_preferred_side_chosen(df)
+    position_effect = count_position_effect_on_criterion_score(df, criteria)
+    chosen_scored_higher = get_percentage_of_chosen_response_scored_higher(df, criteria)
+    export_excel(
+        {
+            "Preferred side statistics": preferred_side_stats,
+            "Position effect on criterion score": position_effect,
+            "Chosen response scored higher": chosen_scored_higher,
+        },
+        "preferred_side_analysis",
+        analysis_config,
+    )
     print_success(
         f"Dataset characteristic and missing values save to: {analysis_config.output_dir}/docs"
     )
