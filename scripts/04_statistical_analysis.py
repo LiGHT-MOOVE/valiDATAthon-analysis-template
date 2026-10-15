@@ -1,3 +1,5 @@
+from analysis.statistics.variance import compute_variance
+
 from analysis.config import REQUIRED_NON_NULL_COLUMNS, load_analysis_config
 from analysis.data.load import load_dataset
 from analysis.data.preprocess import prepare_data
@@ -116,7 +118,7 @@ def main():
         analysis_config,
     )
         """
-    print_step(9, "Inter-rater agreement analysis")
+    print_step(9, "Inter-rater agreement and variance analysis")
     agreement_methods = analysis_config.irr_methods
     agreement_weight = analysis_config.irr_weight
     irr_by_criterion = compute_agreement_by_criterion(
@@ -125,12 +127,19 @@ def main():
     irr_by_model = compute_agreement_by_model(
         df, countries, criteria, agreement_methods, agreement_weight
     )
+
+    variance = compute_variance(
+        df,
+        countries,
+        criteria,
+    )
     export_excel(
         {
             "IRR by criterion": irr_by_criterion,
             "IRR by model": irr_by_model,
+            "variance component": variance,
         },
-        "IRR",
+        "irr_&_variance",
         analysis_config,
     )
     print_success(
