@@ -1,5 +1,3 @@
-from analysis.statistics.variance import compute_variance
-
 from analysis.config import REQUIRED_NON_NULL_COLUMNS, load_analysis_config
 from analysis.data.load import load_dataset
 from analysis.data.preprocess import prepare_data
@@ -10,6 +8,10 @@ from analysis.helpers import combine_country_results, export_excel, export_model
 from analysis.statistics.cache import get_cache
 from analysis.statistics.descriptive import (
     get_analysis_values,
+)
+from analysis.statistics.gap_between_scores import (
+    compute_same_answer_both_sides_scores,
+    get_scores_gap,
 )
 from analysis.statistics.irr import (
     compute_agreement_by_criterion,
@@ -24,6 +26,7 @@ from analysis.statistics.response_position_effect import (
     count_preferred_side_chosen,
     get_percentage_of_chosen_response_scored_higher,
 )
+from analysis.statistics.variance import compute_variance
 from analysis.statistics.win_loss import head_to_head_data, win_loss_summary
 from utils.print_console import print_step, print_success
 
@@ -117,7 +120,7 @@ def main():
         "preferred_side_analysis",
         analysis_config,
     )
-        """
+       
     print_step(9, "Inter-rater agreement and variance analysis")
     agreement_methods = analysis_config.irr_methods
     agreement_weight = analysis_config.irr_weight
@@ -140,6 +143,28 @@ def main():
             "variance component": variance,
         },
         "irr_&_variance",
+        analysis_config,
+    )
+
+ """
+    print_step(10, "Gap between scores  analysis")
+    scores = [2, 1, 0, -1, -2]
+    scores_gap = get_scores_gap(df, criteria)
+    same_answer_scores = compute_same_answer_both_sides_scores(
+        df,
+        criteria,
+        scores,
+    )
+
+    export_excel(
+        {
+            "Scores gap": scores_gap,
+            **{
+                criterion: (data, True)
+                for criterion, data in same_answer_scores.items()
+            },
+        },
+        "scores_gap",
         analysis_config,
     )
     print_success(

@@ -50,10 +50,9 @@ def export_dataframe(
 
 
 def export_excel(
-    data: dict[str, pd.DataFrame],
+    data: dict[str, pd.DataFrame | tuple[pd.DataFrame, bool]],
     name: str,
     config: AnalysisConfig,
-    save_index: bool = False,
 ) -> None:
     """Export multiple DataFrames to separate sheets in one Excel file."""
 
@@ -63,8 +62,14 @@ def export_excel(
     timestamp = datetime.now(ZoneInfo("Europe/Zurich")).strftime("%H%M%S")
     config.make_dirs()
     output_path = config.docs_dir / f"{config.tag}_{name}_{timestamp}.xlsx"
+
     with pd.ExcelWriter(output_path, engine="openpyxl") as writer:
-        for sheet_name, df in data.items():
+        for sheet_name, value in data.items():
+            if isinstance(value, tuple):
+                df, save_index = value
+            else:
+                df, save_index = value, False
+
             df.to_excel(
                 writer,
                 sheet_name=sheet_name[:31],
