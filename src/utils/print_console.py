@@ -4,8 +4,10 @@ from rich.panel import Panel
 console = Console()
 
 
-def print_step(number, message):
-    console.rule(f"[bold cyan]{number} - {message}[/bold cyan]")
+def print_step(message: str, number: int | None = None) -> None:
+    """Print a formatted step with an optional number."""
+    title = f"{number} - {message}" if number is not None else message
+    console.rule(f"[bold cyan]{title}[/bold cyan]")
 
 
 def print_success(message):

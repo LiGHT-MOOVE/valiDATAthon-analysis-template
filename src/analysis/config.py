@@ -24,10 +24,6 @@ class AnalysisConfig:
     irr_weight: str = "linear"
     safety_var: str = "safety_score"
     save_outputs: bool = True
-    ni_margin: float = -0.20
-    ni_alpha: float = 0.025
-    figure_size: tuple[float, float] = (8, 5)
-    dpi: int = 300
     bootstrap_n: int = 500
     bootstrap_seed: int = 123
     use_cache: bool = True
@@ -35,9 +31,19 @@ class AnalysisConfig:
     friendly_models: Mapping[str, str] = field(default_factory=dict)
     friendly_criteria: Mapping[str, str] = field(default_factory=dict)
     model_categories: Mapping[str, str] = field(default_factory=dict)
-    category_colors: Mapping[str, str] = field(default_factory=dict)
     order_of_models: tuple[str, ...] = ()
     irr_methods: Mapping[str, str] = field(default_factory=dict)
+    analyses: dict[str, bool] = field(
+        default_factory=lambda: {
+            "adjusted_mean_score": True,
+            "safety_pairwise_comparisons": True,
+            "win_loss": True,
+            "position_effect": True,
+            "inter_rater_agreement": True,
+            "variance": True,
+            "gap_between_scores": True,
+        }
+    )
 
     @property
     def figures_dir(self) -> Path:
@@ -69,8 +75,6 @@ def load_analysis_config() -> AnalysisConfig:
     analysis = config.get("analysis", {})
     cache = config.get("cache", {})
 
-    visualization = config.get("visualization", {})
-
     paths = config["paths"]
 
     return AnalysisConfig(
@@ -80,13 +84,6 @@ def load_analysis_config() -> AnalysisConfig:
         output_dir=ROOT / paths["outputs"],
         safety_var=analysis.get("safety_var", "safety_score"),
         save_outputs=analysis.get("save_outputs", True),
-        ni_margin=analysis.get("ni_margin", -0.20),
-        ni_alpha=analysis.get("ni_alpha", 0.025),
-        figure_size=(
-            visualization.get("figure_width", 8),
-            visualization.get("figure_height", 5),
-        ),
-        dpi=visualization.get("dpi", 300),
         bootstrap_n=analysis.get("bootstrap_iterations", 500),
         bootstrap_seed=analysis.get("bootstrap_seed", 123),
         use_cache=cache.get("enabled", True),
@@ -99,9 +96,9 @@ def load_analysis_config() -> AnalysisConfig:
         friendly_criteria=config.get("criteria", {}).get("friendly_names", {}),
         model_categories=config.get("model_categories", {}),
         order_of_models=tuple(config["models"]["order"]),
-        category_colors=config.get("category_colors", {}),
         irr_weight=config.get("agreement", {}).get("weight", "linear"),
         irr_methods=config.get("agreement", {}).get("methods", {}),
+        analyses=config.get("analyses", {}),
     )
 
 
@@ -133,3 +130,21 @@ class MixedModelResult:
     beta: np.ndarray
     beta_cov: np.ndarray
     converged: bool
+
+
+VALID_ANALYSES = {
+    "adjusted_mean_score",
+    "safety_pairwise_comparisons",
+    "win_loss",
+    "position_effect",
+    "inter_rater_agreement",
+    "variance",
+    "gap_between_scores",
+}
+
+
+def validate_analysis_config(config: AnalysisConfig) -> None:
+    unknown = set(config.analyses) - VALID_ANALYSES
+
+    if unknown:
+        raise ValueError(f"Unknown analyses in configuration: {sorted(unknown)}")
