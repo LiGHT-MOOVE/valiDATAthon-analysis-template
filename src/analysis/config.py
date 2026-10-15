@@ -21,6 +21,7 @@ class AnalysisConfig:
     tag: str
     title_tag: str
     output_dir: Path
+    irr_weight: str = "linear"
     safety_var: str = "safety_score"
     save_outputs: bool = True
     ni_margin: float = -0.20
@@ -36,6 +37,7 @@ class AnalysisConfig:
     model_categories: Mapping[str, str] = field(default_factory=dict)
     category_colors: Mapping[str, str] = field(default_factory=dict)
     order_of_models: tuple[str, ...] = ()
+    irr_methods: Mapping[str, str] = field(default_factory=dict)
 
     @property
     def figures_dir(self) -> Path:
@@ -98,6 +100,8 @@ def load_analysis_config() -> AnalysisConfig:
         model_categories=config.get("model_categories", {}),
         order_of_models=tuple(config["models"]["order"]),
         category_colors=config.get("category_colors", {}),
+        irr_weight=config.get("agreement", {}).get("weight", "linear"),
+        irr_methods=config.get("agreement", {}).get("methods", {}),
     )
 
 

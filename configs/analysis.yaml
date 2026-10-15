@@ -51,6 +51,12 @@ model_categories:
   "Meditron CHUV": Open
   "GPT-OSS": Open
   "GPT-5.5": Closed
+agreement:
+  weight: linear
+  methods:
+    "gwet_ac2": gwet
+    "krippendorff_alpha": krippendorff
+
 
 category_colors:
   Human: "#555555"

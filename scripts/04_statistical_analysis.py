@@ -9,6 +9,10 @@ from analysis.statistics.cache import get_cache
 from analysis.statistics.descriptive import (
     get_analysis_values,
 )
+from analysis.statistics.irr import (
+    compute_agreement_by_criterion,
+    compute_agreement_by_model,
+)
 from analysis.statistics.model_comparisons import (
     fit_mixed_models_by_country_and_criterion,
     fit_safety_pairwise_contrasts_by_country,
@@ -96,7 +100,7 @@ def main():
         "win_loss_analysis",
         analysis_config,
     )
-    """
+
     print_step(8, "Position effect analysis")
 
     preferred_side_stats = count_preferred_side_chosen(df)
@@ -109,6 +113,24 @@ def main():
             "Chosen response scored higher": chosen_scored_higher,
         },
         "preferred_side_analysis",
+        analysis_config,
+    )
+        """
+    print_step(9, "Inter-rater agreement analysis")
+    agreement_methods = analysis_config.irr_methods
+    agreement_weight = analysis_config.irr_weight
+    irr_by_criterion = compute_agreement_by_criterion(
+        df, countries, criteria, agreement_methods, agreement_weight
+    )
+    irr_by_model = compute_agreement_by_model(
+        df, countries, criteria, agreement_methods, agreement_weight
+    )
+    export_excel(
+        {
+            "IRR by criterion": irr_by_criterion,
+            "IRR by model": irr_by_model,
+        },
+        "IRR",
         analysis_config,
     )
     print_success(
