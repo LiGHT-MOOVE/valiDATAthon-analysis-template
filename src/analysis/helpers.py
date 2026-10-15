@@ -95,14 +95,18 @@ def export_figure(fig, name: str, config: AnalysisConfig) -> None:
         )
 
 
-def export_model_fits(
-    fits: dict[tuple[str, str], MixedModelResult],
-) -> pd.DataFrame:
+def export_model_fits(fits: dict) -> pd.DataFrame:
     """Extract model convergence and fit diagnostics."""
     rows = []
 
-    for (country, criterion), model_result in fits.items():
+    for key, model_result in fits.items():
         fitted_model = model_result.fit
+        print(vars(fitted_model).keys())
+        if isinstance(key, tuple):
+            country, criterion = key
+        else:
+            country = key
+            criterion = "safety_score"
 
         rows.append(
             {

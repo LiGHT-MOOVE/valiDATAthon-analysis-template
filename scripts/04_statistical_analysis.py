@@ -4,7 +4,7 @@ from analysis.data.preprocess import prepare_data
 from analysis.data.validate import (
     validate_processed_data,
 )
-from analysis.helpers import export_dataframe, export_excel, export_model_fits
+from analysis.helpers import export_excel, export_model_fits
 from analysis.statistics.cache import get_cache
 from analysis.statistics.descriptive import (
     get_analysis_values,
@@ -44,10 +44,12 @@ def main():
     criteria, countries, models, countries_ordered = get_analysis_values(df)
 
     order_of_models = analysis_config.order_of_models
-    print_step(4, "Adjusted mean score (95% CI)")
+    """
+    print_step(5, "Adjusted mean score (95% CI)")
     adjusted_mean_by_country, adjusted_mean_by_country_fits = (
         fit_mixed_models_by_country_and_criterion(df, criteria, order_of_models, memory)
     )
+
 
     export_excel(
         {
@@ -57,8 +59,9 @@ def main():
         "adjusted_mean_score",
         analysis_config,
     )
+
     """
-    print_step(5, "Safety pairwise comparisons")
+    print_step(6, "Safety pairwise comparisons")
     country_pairwise_safety, country_fits_safety = (
         fit_safety_pairwise_contrasts_by_country(df)
     )
@@ -71,6 +74,16 @@ def main():
         analysis_config,
     )
     """
+
+    df_country = df[df["reviewer_country"] == country]
+
+    win_loss = win_loss_summary(df_country)
+
+    head_to_head, h2h_matrix = head_to_head_data(
+        df_country,
+        win_loss,
+    )
+        """
     print_success(
         f"Dataset characteristic and missing values save to: {analysis_config.output_dir}/docs"
     )

@@ -4,7 +4,7 @@ project:
 
 paths:
   outputs: outputs
-  analysis_file: data/processed/all_countries_reviews.csv
+  analysis_file: data/processed/ethiopia_preprocessed_reviews.csv
 
 cache:
   enabled: true
@@ -45,7 +45,12 @@ criteria:
 
 model_categories:
   Human Benchmark: Human
-  Qwen 3: Open-weight LLM
+  Qwen 3: Open
+  "Apertus-Meditron": Fully Open
+  "MedGemma": Open
+  "Meditron CHUV": Open
+  "GPT-OSS": Open
+  "GPT-5.5": Closed
 
 category_colors:
   Human: "#555555"
