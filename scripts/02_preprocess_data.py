@@ -79,7 +79,6 @@ def main():
         for col in clean_reviews.columns
         if not col.endswith("_score") and col != "comments"
     ]
-    print(non_null_cols)
     validate_processed_data(clean_reviews, score_cols, non_null_cols)
 
     # 5. Save outputs

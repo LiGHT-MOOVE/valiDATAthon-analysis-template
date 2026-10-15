@@ -1,31 +1,15 @@
-from analysis.config import load_analysis_config
+from analysis.config import REQUIRED_NON_NULL_COLUMNS, load_analysis_config
 from analysis.data.load import load_dataset
 from analysis.data.preprocess import prepare_data
 from analysis.data.validate import (
     validate_processed_data,
 )
+from analysis.helpers import export_dataframe
 from analysis.statistics.descriptive import (
     calculate_missingness,
     create_study_characteristics_table,
 )
-from analysis.utils.general import export_dataframe
 from utils.print_console import print_step, print_success
-
-non_null_columns = [
-    "review_id",
-    "battle_id",
-    "reviewer_id",
-    "working_group",
-    "placement",
-    "review_timestamp",
-    "vignette_id",
-    "answer_id",
-    "model",
-    "preferred",
-    "opposing_answer_id",
-    "opposing_model",
-    "reviewer_country",
-]
 
 
 def main():
@@ -42,7 +26,7 @@ def main():
     # 2. Validate raw data
     print_step(2, "Validate analysis data")
     score_cols = [col for col in reviews_df.columns if col.endswith("_score")]
-    validate_processed_data(reviews_df, score_cols, non_null_columns)
+    validate_processed_data(reviews_df, score_cols, REQUIRED_NON_NULL_COLUMNS)
 
     print_step(3, "Data preparation")
     df = prepare_data(reviews_df, analysis_config)

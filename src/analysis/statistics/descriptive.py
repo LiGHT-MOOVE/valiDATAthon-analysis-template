@@ -115,3 +115,20 @@ def create_study_characteristics_table(df):
     ]
 
     return pd.DataFrame(summary_data)
+
+
+def get_analysis_values(df):
+    criteria = [column for column in df.columns if column.endswith("_score")]
+
+    countries = sorted(df["reviewer_country"].dropna().unique())
+
+    models = df["model"].dropna().drop_duplicates().tolist()
+
+    countries_ordered = sorted(countries)
+
+    return (
+        criteria,
+        countries,
+        models,
+        countries_ordered,
+    )
