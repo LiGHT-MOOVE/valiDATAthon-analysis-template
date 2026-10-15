@@ -120,3 +120,13 @@ def export_model_fits(fits: dict) -> pd.DataFrame:
         )
 
     return pd.DataFrame(rows)
+
+
+def combine_country_results(
+    results: dict[str, pd.DataFrame],
+) -> pd.DataFrame:
+    """Combine DataFrames from multiple countries into one DataFrame."""
+    return pd.concat(
+        [df.assign(reviewer_country=country) for country, df in results.items()],
+        ignore_index=True,
+    )

@@ -4,7 +4,7 @@ from analysis.data.preprocess import prepare_data
 from analysis.data.validate import (
     validate_processed_data,
 )
-from analysis.helpers import export_excel, export_model_fits
+from analysis.helpers import combine_country_results, export_excel, export_model_fits
 from analysis.statistics.cache import get_cache
 from analysis.statistics.descriptive import (
     get_analysis_values,
@@ -13,6 +13,7 @@ from analysis.statistics.model_comparisons import (
     fit_mixed_models_by_country_and_criterion,
     fit_safety_pairwise_contrasts_by_country,
 )
+from analysis.statistics.win_loss import head_to_head_data, win_loss_summary
 from utils.print_console import print_step, print_success
 
 
@@ -60,7 +61,6 @@ def main():
         analysis_config,
     )
 
-    """
     print_step(6, "Safety pairwise comparisons")
     country_pairwise_safety, country_fits_safety = (
         fit_safety_pairwise_contrasts_by_country(df)
@@ -74,16 +74,24 @@ def main():
         analysis_config,
     )
     """
+    print_step(7, "Win loss analysis")
 
-    df_country = df[df["reviewer_country"] == country]
-
-    win_loss = win_loss_summary(df_country)
+    win_loss = win_loss_summary(df)
 
     head_to_head, h2h_matrix = head_to_head_data(
-        df_country,
+        df,
         win_loss,
     )
-        """
+    export_excel(
+        {
+            "Win loss": combine_country_results(win_loss),
+            "Head to head": combine_country_results(head_to_head),
+            "H2H matrices": combine_country_results(h2h_matrix),
+        },
+        "win_loss_analysis",
+        analysis_config,
+    )
+
     print_success(
         f"Dataset characteristic and missing values save to: {analysis_config.output_dir}/docs"
     )
