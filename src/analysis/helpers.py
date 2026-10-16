@@ -5,6 +5,7 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 
 from analysis.statistics.config import AnalysisConfig
+from analysis.visualization.config import VisualizationConfig
 
 
 def criterion_name(criterion: str, config: AnalysisConfig) -> str:
@@ -87,17 +88,29 @@ def export_styled_table(styled, name: str, config: AnalysisConfig) -> None:
         )
 
 
-def export_figure(fig, name: str, config: AnalysisConfig) -> None:
-    timestamp = datetime.now(ZoneInfo("Europe/Zurich")).strftime("%H%M%S")
+def export_figure(
+    fig,
+    name: str,
+    config: VisualizationConfig,
+) -> None:
+    """Save a figure using the configured visualization settings."""
+    if not config.save_outputs:
+        return
 
-    if config.save_outputs:
-        config.make_dirs()
-        fig.savefig(
-            config.figures_dir / f"{config.tag}_{name}_{timestamp}.png",
-            dpi=config.dpi,
-            bbox_inches="tight",
-            facecolor="white",
-        )
+    timestamp = datetime.now(ZoneInfo("Europe/Zurich")).strftime("%H%M%S")
+    config.make_dirs()
+    output_path = (
+        config.figures_dir
+        / f"{config.project_name}_{name}_{timestamp}.{config.output_format}"
+    )
+
+    fig.savefig(
+        output_path,
+        format=config.output_format,
+        dpi=config.dpi,
+        bbox_inches=config.bbox_inches,
+        facecolor="white",
+    )
 
 
 def export_model_fits(fits: dict) -> pd.DataFrame:

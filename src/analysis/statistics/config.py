@@ -46,11 +46,6 @@ class AnalysisConfig:
     )
 
     @property
-    def figures_dir(self) -> Path:
-        timestamp = datetime.now(ZoneInfo("Europe/Zurich")).strftime("%Y%m%d")
-        return self.output_dir / "figures" / timestamp
-
-    @property
     def docs_dir(self) -> Path:
         timestamp = datetime.now(ZoneInfo("Europe/Zurich")).strftime("%Y%m%d")
         return self.output_dir / "docs" / timestamp
@@ -59,7 +54,6 @@ class AnalysisConfig:
 
         for path in (
             self.output_dir,
-            self.figures_dir,
             self.docs_dir,
             self.cache_dir,
         ):

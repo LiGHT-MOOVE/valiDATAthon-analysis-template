@@ -1,0 +1,66 @@
+project:
+  name: clinical_ai_evaluation
+
+paths:
+  outputs: outputs
+  figures: outputs/figures
+  
+  # input file for each statistical analysis
+  analysis_inputs:
+    adjusted_mean_score: outputs/statistics/adjusted_mean_scores.xlsx
+    safety_pairwise_comparisons: outputs/statistics/safety_pairwise_comparisons.xlsx
+    win_loss: outputs/statistics/win_loss.xlsx
+    position_effect: outputs/statistics/position_effect.xlsx
+    inter_rater_agreement: outputs/statistics/inter_rater_agreement.xlsx
+    variance: outputs/statistics/variance_components.xlsx
+    gap_between_scores: outputs/statistics/gap_between_scores.xlsx
+
+plots:
+
+  save_outputs: true
+  format: pdf
+  dpi: 300
+  bbox_inches: tight
+
+  # Default figure dimensions (in inches)
+  figure:
+    width: 10
+    height: 6
+
+  # Font sizes (in points)
+  fonts:
+    family: sans-serif
+    title: 12
+    subtitle: 11
+    axis_label: 10
+    tick_label: 9
+    legend: 9
+    annotation: 9
+    panel_label: 12
+
+  # Country-specific colors
+
+  countries:
+    Kenya: "#1C9487"
+    Malawi: "#BE7325"
+    Tanzania: "#424F8D"
+
+  # Colors for general comparisons
+  comparisons:
+    positive: "#217B3B"
+    neutral: "#C7C6C1"
+    negative: "#772B83"
+
+  # Other reusable colors
+  general:
+    primary: "#105091"
+    secondary: "#7C7F82"
+    grid: "#D9D9D9"
+
+  # Select which figures to generate
+  analyses:
+    llm_performance: true
+    h2h_comparison: true
+    irr_and_variance: true
+    consistency_of_scores_over_same_response: true
+    effect_of_response_display_position: true
