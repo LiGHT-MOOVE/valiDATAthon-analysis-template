@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
 
+from analysis.visualization.style import PlotStyle
 from config import load_config
 
 
@@ -38,6 +39,23 @@ class VisualizationConfig:
     general_colors: dict[str, str]
 
     analyses: dict[str, bool]
+
+    @property
+    def style(self) -> PlotStyle:
+        """Return the plot style settings."""
+
+        return PlotStyle(
+            font_title=self.font_title,
+            font_subtitle=self.font_subtitle,
+            font_label=self.font_axis_label,
+            font_tick=self.font_tick_label,
+            font_legend=self.font_legend,
+            font_value=self.font_annotation,
+            primary_color=self.general_colors.get("primary", "#105091"),
+            secondary_color=self.general_colors.get("secondary", "#7C7F82"),
+            grid_color=self.general_colors.get("grid", "#D9D9D9"),
+            country_colors=self.country_colors,
+        )
 
     @property
     def figures_dir(self) -> Path:

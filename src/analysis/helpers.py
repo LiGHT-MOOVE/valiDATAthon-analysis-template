@@ -8,9 +8,9 @@ from analysis.statistics.config import AnalysisConfig
 from analysis.visualization.config import VisualizationConfig
 
 
-def criterion_name(criterion: str, config: AnalysisConfig) -> str:
+def criterion_name(criterion: str, friendly_criteria) -> str:
     fallback = criterion.removesuffix("_score").replace("_", " ").title()
-    return config.friendly_criteria.get(criterion, fallback)
+    return friendly_criteria.get(criterion, fallback)
 
 
 def format_pvalue(value: float) -> str:
@@ -119,7 +119,6 @@ def export_model_fits(fits: dict) -> pd.DataFrame:
 
     for key, model_result in fits.items():
         fitted_model = model_result.fit
-        print(vars(fitted_model).keys())
         if isinstance(key, tuple):
             country, criterion = key
         else:

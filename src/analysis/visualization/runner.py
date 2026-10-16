@@ -4,32 +4,9 @@ import pandas as pd
 from analysis.helpers import (
     export_figure,
 )
+from analysis.visualization.llm_performance import plot_llm_performance_main_figure
 from analysis.visualization.load import load_figure_inputs
 from utils.print_console import print_step, print_success
-
-
-# Analysis runners
-def plot_llm_performance_main_figure(
-    adjusted_means: pd.DataFrame,
-    safety_comparisons: pd.DataFrame,
-    criteria,
-    countries,
-    models,
-    config,
-):
-    fig = plt.figure(figsize=(18, 18), layout="constrained")
-
-    fig1_subfig1, fig1_subfig2, fig1_subfig3, fig1_footer = fig.subfigures(
-        4,
-        1,
-        height_ratios=[8, 4, 6, 1],
-    )
-    export_figure(
-        fig,
-        "llm_performance",
-        config,
-    )
-    plt.close(fig)
 
 
 def plot_h2h_comparison_main_figure(
@@ -172,6 +149,8 @@ def plot_selected_figures(
     countries,
     models,
     config,
+    friendly_criteria,
+    model_categories,
 ) -> None:
     """Run the figures enabled in the configuration."""
 
@@ -208,6 +187,8 @@ def plot_selected_figures(
                 countries=countries,
                 models=models,
                 config=config,
+                friendly_criteria=friendly_criteria,
+                model_categories=model_categories,
             )
 
         if name == "h2h_comparison":

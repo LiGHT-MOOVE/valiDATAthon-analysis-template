@@ -1,3 +1,4 @@
+from analysis.statistics.config import load_analysis_config
 from analysis.statistics.descriptive import get_analysis_values
 from analysis.visualization.config import load_visualization_config
 from analysis.visualization.runner import ANALYSIS_RUNNERS, plot_selected_figures
@@ -8,6 +9,7 @@ def main():
     """Plot statistical figures."""
 
     config = load_visualization_config()
+    analysis_config = load_analysis_config()
 
     # Validate analysis selection before loading the dataset.
     unknown_analyses = set(config.analyses) - set(ANALYSIS_RUNNERS)
@@ -34,13 +36,14 @@ def main():
     print_step(4, "Get analysis characteristics")
     criteria, countries, models, countries_ordered = get_analysis_values(df)
     """
-
+    print(analysis_config.order_of_models, "order_of_models")
     plot_selected_figures(
-        # df=df,
-        criteria=[],
-        countries=[],
-        models=[],
+        criteria=analysis_config.order_of_criteria,
+        countries=analysis_config.order_of_countries,
+        models=analysis_config.order_of_models,
         config=config,
+        friendly_criteria=analysis_config.friendly_criteria,
+        model_categories=analysis_config.model_categories,
     )
 
     print_success(f"Plots results saved to: {config.figures_dir}")

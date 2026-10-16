@@ -28,31 +28,55 @@ analyses:
 
 models:
   order:
-    - "Human Benchmark"
-    - "Apertus-Meditron"
-    - "Qwen 3"
-    - "MedGemma"
-    - "Meditron CHUV"
-    - "GPT-OSS"
-    - "GPT-5.5"
+    - Human Benchmark
+    - Apertus-Meditron
+    - Qwen3
+    - MedGemma
+    - Meditron CHUV
+    - GPT-OSS
+    - GPT-5.5
+    
+
+
   friendly_names:
     Human Benchmark: Human Benchmark
-    Qwen 3: Qwen 3
+    Apertus-Meditron: Apertus-Meditron
+    Qwen3: Qwen 3
+    MedGemma: MedGemma
+    Meditron CHUV: Meditron CHUV
+    GPT-OSS: GPT-OSS
+    GPT-5.5: GPT-5.5
+
+  categories:
+    Human Benchmark: Human
+    Apertus-Meditron: Fully Open
+    Qwen3: Open
+    MedGemma: Open
+    Meditron CHUV: Open
+    GPT-OSS: Open
+    GPT-5.5: Closed
 
 criteria:
+  order:
+    - clinical_soundness_score
+    - safety_score
+    - contextual_fit_score
+    - clarity_and_completeness_score
+    - appropriate_confidence_score
+
   friendly_names:
     clinical_soundness_score: Clinical soundness
     safety_score: Safety
+    contextual_fit_score: Contextual fit
+    clarity_and_completeness_score: Clarity and completeness
+    appropriate_confidence_score: Appropriate confidence
 
-model_categories:
-  Human Benchmark: Human
-  Qwen 3: Open
-  "Apertus-Meditron": Fully Open
-  "MedGemma": Open
-  "Meditron CHUV": Open
-  "GPT-OSS": Open
-  "GPT-5.5": Closed
+countries:
+  order:
+    - ethiopia
 
+  friendly_names:
+    ethiopia: Ethiopia
 agreement:
   weight: linear
   methods:

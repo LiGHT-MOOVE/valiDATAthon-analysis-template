@@ -8,17 +8,17 @@ paths:
   # input file for each statistical analysis
   analysis_inputs:
     llm_performance:
-      adjusted_mean_score: outputs/docs/20261015/clinical_ai_evaluation_adjusted_mean_score_164102.xlsx
-      safety_pairwise_comparisons: outputs/docs/20261015/clinical_ai_evaluation_safety_pairwise_comparisons_164122.xlsx
+      adjusted_mean_score: outputs/docs/20261016/clinical_ai_evaluation_adjusted_mean_score_131615.xlsx
+      safety_pairwise_comparisons: outputs/docs/20261016/clinical_ai_evaluation_safety_pairwise_comparisons_131635.xlsx
     h2h_comparison:
-      win_loss: outputs/docs/20261015/clinical_ai_evaluation_win_loss_analysis_164122.xlsx
+      win_loss: outputs/docs/20261016/clinical_ai_evaluation_win_loss_analysis_130055.xlsx
     irr_and_variance:
-      inter_rater_agreement: outputs/docs/20261015/clinical_ai_evaluation_inter_rater_agreement_164123.xlsx
-      variance: outputs/docs/20261015/clinical_ai_evaluation_variance_components_164345.xlsx
+      inter_rater_agreement: outputs/docs/20261016/clinical_ai_evaluation_inter_rater_agreement_130057.xlsx
+      variance: outputs/docs/20261016/clinical_ai_evaluation_variance_components_130300.xlsx
     consistency_of_scores_over_same_response:
-      gap_between_scores: outputs/docs/20261015/clinical_ai_evaluation_scores_gap_164345.xlsx
+      gap_between_scores: outputs/docs/20261016/clinical_ai_evaluation_scores_gap_130301.xlsx
     effect_of_response_display_position:
-      position_effect: outputs/docs/20261015/clinical_ai_evaluation_preferred_side_analysis_164123.xlsx
+      position_effect: outputs/docs/20261016/clinical_ai_evaluation_preferred_side_analysis_130057.xlsx
 
 plots:
 
@@ -46,7 +46,7 @@ plots:
   # Country-specific colors
 
   countries:
-    Kenya: "#1C9487"
+    ethiopia: "#1C9487"
     Malawi: "#BE7325"
     Tanzania: "#424F8D"
 
@@ -69,3 +69,4 @@ plots:
     irr_and_variance: true
     consistency_of_scores_over_same_response: true
     effect_of_response_display_position: true
+

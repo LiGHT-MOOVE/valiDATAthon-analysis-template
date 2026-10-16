@@ -15,24 +15,42 @@ from config import load_config
 
 @dataclass
 class AnalysisConfig:
-    """All project-specific settings in one object."""
+    """Store project-specific analysis settings."""
 
     dataset_path: Path
     tag: str
     title_tag: str
     output_dir: Path
-    irr_weight: str = "linear"
+
+    # Analysis settings
     safety_var: str = "safety_score"
     save_outputs: bool = True
-    bootstrap_n: int = 500
-    bootstrap_seed: int = 123
+    bootstrap_n: int = 2000
+    bootstrap_seed: int = 42
+    confidence_level: float = 0.95
+
+    # Cache settings
     use_cache: bool = True
     cache_dir: Path = Path(".cache/statistical_analysis")
+
+    # Model configuration
     friendly_models: Mapping[str, str] = field(default_factory=dict)
-    friendly_criteria: Mapping[str, str] = field(default_factory=dict)
     model_categories: Mapping[str, str] = field(default_factory=dict)
     order_of_models: tuple[str, ...] = ()
+
+    # Criterion configuration
+    friendly_criteria: Mapping[str, str] = field(default_factory=dict)
+    order_of_criteria: tuple[str, ...] = ()
+
+    # Country configuration
+    friendly_countries: Mapping[str, str] = field(default_factory=dict)
+    order_of_countries: tuple[str, ...] = ()
+
+    # Agreement configuration
+    irr_weight: str = "linear"
     irr_methods: Mapping[str, str] = field(default_factory=dict)
+
+    # Selected analyses
     analyses: dict[str, bool] = field(
         default_factory=lambda: {
             "adjusted_mean_score": True,
@@ -47,11 +65,12 @@ class AnalysisConfig:
 
     @property
     def docs_dir(self) -> Path:
+        """Return the date-stamped documentation output directory."""
         timestamp = datetime.now(ZoneInfo("Europe/Zurich")).strftime("%Y%m%d")
         return self.output_dir / "docs" / timestamp
 
     def make_dirs(self) -> None:
-
+        """Create output directories."""
         for path in (
             self.output_dir,
             self.docs_dir,
@@ -61,37 +80,53 @@ class AnalysisConfig:
 
 
 def load_analysis_config() -> AnalysisConfig:
-    """Build AnalysisConfig from config.yaml."""
-    ROOT = Path(__file__).resolve().parents[2]
-    CONFIG_PATH = ROOT / "configs/analysis.yaml"
-    config = load_config(CONFIG_PATH)
+    """Load and validate settings from configs/analysis.yaml."""
+    root = Path(__file__).resolve().parents[3]
+    config_path = root / "configs" / "analysis.yaml"
+    config = load_config(config_path)
 
+    project = config["project"]
+    paths = config["paths"]
     analysis = config.get("analysis", {})
     cache = config.get("cache", {})
+    agreement = config.get("agreement", {})
 
-    paths = config["paths"]
+    models = config.get("models", {})
+    criteria = config.get("criteria", {})
+    countries = config.get("countries", {})
 
     return AnalysisConfig(
-        dataset_path=ROOT / paths["analysis_file"],
-        tag=config["project"]["name"],
-        title_tag=config["project"]["name"].upper(),
-        output_dir=ROOT / paths["outputs"],
+        # Project and paths
+        dataset_path=root / paths["analysis_file"],
+        tag=project["name"],
+        title_tag=project["name"].upper(),
+        output_dir=root / paths["outputs"],
+        # Analysis settings
         safety_var=analysis.get("safety_var", "safety_score"),
         save_outputs=analysis.get("save_outputs", True),
-        bootstrap_n=analysis.get("bootstrap_iterations", 500),
-        bootstrap_seed=analysis.get("bootstrap_seed", 123),
-        use_cache=cache.get("enabled", True),
-        cache_dir=ROOT
-        / cache.get(
-            "directory",
-            ".cache/statistical_analysis",
+        bootstrap_n=analysis.get("bootstrap_iterations", 2000),
+        bootstrap_seed=analysis.get(
+            "bootstrap_seed",
+            project.get("random_seed", 42),
         ),
-        friendly_models=config.get("models", {}).get("friendly_names", {}),
-        friendly_criteria=config.get("criteria", {}).get("friendly_names", {}),
-        model_categories=config.get("model_categories", {}),
-        order_of_models=tuple(config["models"]["order"]),
-        irr_weight=config.get("agreement", {}).get("weight", "linear"),
-        irr_methods=config.get("agreement", {}).get("methods", {}),
+        confidence_level=analysis.get("confidence_level", 0.95),
+        # Cache settings
+        use_cache=cache.get("enabled", True),
+        cache_dir=root / cache.get("directory", "outputs/cache"),
+        # Model configuration
+        friendly_models=models.get("friendly_names", {}),
+        model_categories=models.get("categories", {}),
+        order_of_models=tuple(models.get("order", [])),
+        # Criterion configuration
+        friendly_criteria=criteria.get("friendly_names", {}),
+        order_of_criteria=tuple(criteria.get("order", [])),
+        # Country configuration
+        friendly_countries=countries.get("friendly_names", {}),
+        order_of_countries=tuple(countries.get("order", [])),
+        # Agreement configuration
+        irr_weight=agreement.get("weight", "linear"),
+        irr_methods=agreement.get("methods", {}),
+        # Selected analyses
         analyses=config.get("analyses", {}),
     )
 
