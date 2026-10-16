@@ -28,9 +28,9 @@ analyses:
 
 models:
   order:
-    - Human Benchmark
+    #- Human Benchmark
     - Apertus-Meditron
-    - Qwen3
+    - Qwen 3
     - MedGemma
     - Meditron CHUV
     - GPT-OSS
@@ -39,18 +39,18 @@ models:
 
 
   friendly_names:
-    Human Benchmark: Human Benchmark
-    Apertus-Meditron: Apertus-Meditron
-    Qwen3: Qwen 3
-    MedGemma: MedGemma
+    #Human Benchmark: Human Benchmark
+    Apertus-MeditronFO: Apertus-Meditron
+    Qwen3 235B: Qwen 3
+    MedGemma 27B: MedGemma
     Meditron CHUV: Meditron CHUV
     GPT-OSS: GPT-OSS
     GPT-5.5: GPT-5.5
 
   categories:
-    Human Benchmark: Human
+    #Human Benchmark: Human
     Apertus-Meditron: Fully Open
-    Qwen3: Open
+    Qwen 3: Open
     MedGemma: Open
     Meditron CHUV: Open
     GPT-OSS: Open

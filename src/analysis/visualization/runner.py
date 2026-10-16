@@ -174,7 +174,6 @@ def plot_selected_figures(
         print_step(f"Plotting {name.replace('_', ' ').title()}")
 
         inputs = load_figure_inputs(name, config)
-        print(inputs)
 
         # Dispatch the appropriate plotting function.
         if name == "llm_performance":

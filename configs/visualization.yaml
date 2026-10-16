@@ -8,8 +8,8 @@ paths:
   # input file for each statistical analysis
   analysis_inputs:
     llm_performance:
-      adjusted_mean_score: outputs/docs/20261016/clinical_ai_evaluation_adjusted_mean_score_131615.xlsx
-      safety_pairwise_comparisons: outputs/docs/20261016/clinical_ai_evaluation_safety_pairwise_comparisons_131635.xlsx
+      adjusted_mean_score: outputs/docs/20261016/clinical_ai_evaluation_adjusted_mean_score_145158.xlsx
+      safety_pairwise_comparisons: outputs/docs/20261016/clinical_ai_evaluation_safety_pairwise_comparisons_145216.xlsx
     h2h_comparison:
       win_loss: outputs/docs/20261016/clinical_ai_evaluation_win_loss_analysis_130055.xlsx
     irr_and_variance:
@@ -65,8 +65,8 @@ plots:
   # Select which figures to generate
   analyses:
     llm_performance: true
-    h2h_comparison: true
-    irr_and_variance: true
-    consistency_of_scores_over_same_response: true
-    effect_of_response_display_position: true
+    h2h_comparison: false
+    irr_and_variance: false
+    consistency_of_scores_over_same_response: false
+    effect_of_response_display_position: false
 
