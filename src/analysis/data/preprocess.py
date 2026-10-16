@@ -1,6 +1,6 @@
 import pandas as pd
 
-from analysis.config import AnalysisConfig
+from analysis.statistics.config import AnalysisConfig
 
 
 # Helper functions

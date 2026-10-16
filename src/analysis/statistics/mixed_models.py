@@ -11,7 +11,7 @@ import pandas as pd
 import patsy
 
 import config
-from analysis.config import MixedModelResult
+from analysis.statistics.config import MixedModelResult
 
 importlib.reload(config)
 

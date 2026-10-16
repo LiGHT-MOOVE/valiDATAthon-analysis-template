@@ -1,11 +1,11 @@
-from analysis.config import (
-    REQUIRED_NON_NULL_COLUMNS,
-    load_analysis_config,
-)
 from analysis.data.load import load_dataset
 from analysis.data.preprocess import prepare_data
 from analysis.data.validate import validate_processed_data
 from analysis.statistics.cache import get_cache
+from analysis.statistics.config import (
+    REQUIRED_NON_NULL_COLUMNS,
+    load_analysis_config,
+)
 from analysis.statistics.descriptive import get_analysis_values
 from analysis.statistics.runner import ANALYSIS_RUNNERS, run_selected_analyses
 from utils.print_console import print_step, print_success

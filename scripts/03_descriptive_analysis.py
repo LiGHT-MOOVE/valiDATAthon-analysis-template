@@ -1,10 +1,10 @@
-from analysis.config import REQUIRED_NON_NULL_COLUMNS, load_analysis_config
 from analysis.data.load import load_dataset
 from analysis.data.preprocess import prepare_data
 from analysis.data.validate import (
     validate_processed_data,
 )
 from analysis.helpers import export_dataframe
+from analysis.statistics.config import REQUIRED_NON_NULL_COLUMNS, load_analysis_config
 from analysis.statistics.descriptive import (
     calculate_missingness,
     create_study_characteristics_table,

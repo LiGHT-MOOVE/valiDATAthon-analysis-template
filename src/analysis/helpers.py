@@ -4,7 +4,7 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
-from analysis.config import AnalysisConfig, MixedModelResult
+from analysis.statistics.config import AnalysisConfig
 
 
 def criterion_name(criterion: str, config: AnalysisConfig) -> str:

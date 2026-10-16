@@ -8,7 +8,7 @@ import pandas as pd
 from joblib import Memory
 
 import config
-from analysis.config import MixedModelResult
+from analysis.statistics.config import MixedModelResult
 from analysis.statistics.mixed_models import (
     estimated_marginal_means,
     fit_crossed_mixed_model,
