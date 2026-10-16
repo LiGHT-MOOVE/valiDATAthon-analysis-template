@@ -14,7 +14,7 @@ class VisualizationConfig:
     """Store configuration settings for visualizations."""
 
     project_name: str
-    analysis_inputs: dict[str, Path]
+    analysis_inputs: dict[str, dict[str, Path]]
     output_dir: Path
 
     save_outputs: bool
@@ -49,18 +49,43 @@ class VisualizationConfig:
         if self.save_outputs:
             self.figures_dir.mkdir(parents=True, exist_ok=True)
 
+    def validate_inputs(self, selected_figures: list[str]) -> None:
+        """Check that all input files required by selected figures exist."""
+        missing_files = []
+
+        for figure_name in selected_figures:
+            inputs = self.analysis_inputs.get(figure_name)
+
+            if inputs is None:
+                raise ValueError(
+                    f"No input files configured for figure '{figure_name}'."
+                )
+
+            for analysis_name, path in inputs.items():
+                if not path.is_file():
+                    missing_files.append(f"{figure_name} / {analysis_name}: {path}")
+
+        if missing_files:
+            details = "\n".join(f"- {path}" for path in missing_files)
+            raise FileNotFoundError(
+                f"Missing statistical result files:\n{details}\n"
+                "Run the required statistical analyses before plotting."
+            )
+
 
 def load_visualization_config() -> VisualizationConfig:
     """Load visualization settings from configs/visualization.yaml."""
-    project_root = Path(__file__).resolve().parents[2]
+    project_root = Path(__file__).resolve().parents[3]
     config_path = project_root / "configs" / "visualization.yaml"
 
     config = load_config(config_path)
 
     paths = config["paths"]
     analysis_inputs = {
-        name: project_root / path
-        for name, path in paths.get("analysis_inputs", {}).items()
+        figure_name: {
+            analysis_name: project_root / path for analysis_name, path in inputs.items()
+        }
+        for figure_name, inputs in paths.get("analysis_inputs", {}).items()
     }
     plots = config["plots"]
     figure = plots["figure"]

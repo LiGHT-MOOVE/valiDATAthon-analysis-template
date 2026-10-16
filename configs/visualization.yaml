@@ -7,13 +7,18 @@ paths:
   
   # input file for each statistical analysis
   analysis_inputs:
-    adjusted_mean_score: outputs/statistics/adjusted_mean_scores.xlsx
-    safety_pairwise_comparisons: outputs/statistics/safety_pairwise_comparisons.xlsx
-    win_loss: outputs/statistics/win_loss.xlsx
-    position_effect: outputs/statistics/position_effect.xlsx
-    inter_rater_agreement: outputs/statistics/inter_rater_agreement.xlsx
-    variance: outputs/statistics/variance_components.xlsx
-    gap_between_scores: outputs/statistics/gap_between_scores.xlsx
+    llm_performance:
+      adjusted_mean_score: outputs/docs/20261015/clinical_ai_evaluation_adjusted_mean_score_164102.xlsx
+      safety_pairwise_comparisons: outputs/docs/20261015/clinical_ai_evaluation_safety_pairwise_comparisons_164122.xlsx
+    h2h_comparison:
+      win_loss: outputs/docs/20261015/clinical_ai_evaluation_win_loss_analysis_164122.xlsx
+    irr_and_variance:
+      inter_rater_agreement: outputs/docs/20261015/clinical_ai_evaluation_inter_rater_agreement_164123.xlsx
+      variance: outputs/docs/20261015/clinical_ai_evaluation_variance_components_164345.xlsx
+    consistency_of_scores_over_same_response:
+      gap_between_scores: outputs/docs/20261015/clinical_ai_evaluation_scores_gap_164345.xlsx
+    effect_of_response_display_position:
+      position_effect: outputs/docs/20261015/clinical_ai_evaluation_preferred_side_analysis_164123.xlsx
 
 plots:
 

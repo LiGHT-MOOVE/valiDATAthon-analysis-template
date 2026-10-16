@@ -37,13 +37,13 @@ def main():
 
     plot_selected_figures(
         # df=df,
-        # criteria=criteria,
-        # countries=countries,
-        # models=models,
+        criteria=[],
+        countries=[],
+        models=[],
         config=config,
     )
 
-    print_success(f"Analysis results saved to: {config.docs_dir}")
+    print_success(f"Plots results saved to: {config.figures_dir}")
 
 
 if __name__ == "__main__":

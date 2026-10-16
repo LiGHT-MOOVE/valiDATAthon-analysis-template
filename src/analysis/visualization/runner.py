@@ -1,19 +1,21 @@
 import matplotlib.pyplot as plt
+import pandas as pd
 
 from analysis.helpers import (
     export_figure,
 )
+from analysis.visualization.load import load_figure_inputs
 from utils.print_console import print_step, print_success
 
 
 # Analysis runners
 def plot_llm_performance_main_figure(
-    df,
+    adjusted_means: pd.DataFrame,
+    safety_comparisons: pd.DataFrame,
     criteria,
     countries,
     models,
     config,
-    memory,
 ):
     fig = plt.figure(figsize=(18, 18), layout="constrained")
 
@@ -27,15 +29,15 @@ def plot_llm_performance_main_figure(
         "llm_performance",
         config,
     )
+    plt.close(fig)
 
 
 def plot_h2h_comparison_main_figure(
-    df,
+    win_loss: pd.DataFrame,
     criteria,
     countries,
     models,
     config,
-    memory,
 ):
     fig = plt.figure(figsize=(18, 18), layout="none")
 
@@ -60,15 +62,17 @@ def plot_h2h_comparison_main_figure(
         "h2h_comparison",
         config,
     )
+    plt.close(fig)
 
 
 def plot_irr_and_variance_main_figure(
-    df,
+    irr_by_criterion: pd.DataFrame,
+    irr_by_model: pd.DataFrame,
+    variance_components: pd.DataFrame,
     criteria,
     countries,
     models,
     config,
-    memory,
 ):
     fig = plt.figure(figsize=(19, 15), layout="constrained")
 
@@ -97,15 +101,15 @@ def plot_irr_and_variance_main_figure(
         "irr_and_variance",
         config,
     )
+    plt.close(fig)
 
 
 def plot_consistency_of_scores_over_same_response_main_figure(
-    df,
+    gap_between_scores: pd.DataFrame,
     criteria,
     countries,
     models,
     config,
-    memory,
 ):
 
     fig = plt.figure(figsize=(16, 13), layout="constrained")
@@ -127,15 +131,15 @@ def plot_consistency_of_scores_over_same_response_main_figure(
         "consistency_of_scores_over_same_response",
         config,
     )
+    plt.close(fig)
 
 
 def plot_effect_of_response_display_position_supp_figure(
-    df,
+    position_effect: pd.DataFrame,
     criteria,
     countries,
     models,
     config,
-    memory,
 ):
     fig = plt.figure(figsize=(16, 8), layout="none")  # check height
 
@@ -149,6 +153,7 @@ def plot_effect_of_response_display_position_supp_figure(
         "effect_of_response_display_position",
         config,
     )
+    plt.close(fig)
 
 
 # Analysis registry
@@ -163,46 +168,84 @@ ANALYSIS_RUNNERS = {
 
 
 def plot_selected_figures(
-    # df,
     criteria,
     countries,
     models,
     config,
-):
-    """Run analyses enabled in the configuration file."""
+) -> None:
+    """Run the figures enabled in the configuration."""
 
-    enabled_analyses = config.analyses
+    unknown_figures = set(config.analyses) - set(ANALYSIS_RUNNERS)
 
-    unknown_analyses = set(enabled_analyses) - set(ANALYSIS_RUNNERS)
+    if unknown_figures:
+        raise ValueError(f"Unknown figures in configuration: {sorted(unknown_figures)}")
 
-    if unknown_analyses:
-        raise ValueError(
-            f"Unknown analyses in configuration: {sorted(unknown_analyses)}"
-        )
+    selected_figures = [name for name, enabled in config.analyses.items() if enabled]
 
-    selected_analyses = [
-        (name, runner)
-        for name, runner in ANALYSIS_RUNNERS.items()
-        if enabled_analyses.get(name, False)
-    ]
-
-    if not selected_analyses:
-        print_success("No analyses selected. Nothing to run.")
+    if not selected_figures:
+        print_success("No figures selected. Nothing to plot.")
         return
 
-    print_success(
-        "Selected analyses: " + ", ".join(name for name, _ in selected_analyses)
-    )
+    # Validate all required files before starting any plots.
+    config.validate_inputs(selected_figures)
 
-    for name, runner in selected_analyses:
-        print_step(
-            f"Plotting {name.replace('_', ' ').title()}",
-        )
+    print_success("Selected figures: " + ", ".join(selected_figures))
 
-        runner(
-            # df=df,
-            criteria=criteria,
-            countries=countries,
-            models=models,
-            config=config,
-        )
+    for name in selected_figures:
+        print_step(f"Plotting {name.replace('_', ' ').title()}")
+
+        inputs = load_figure_inputs(name, config)
+        print(inputs)
+
+        # Dispatch the appropriate plotting function.
+        if name == "llm_performance":
+            plot_llm_performance_main_figure(
+                adjusted_means=inputs["adjusted_mean_score"]["Adjusted means"],
+                safety_comparisons=inputs["safety_pairwise_comparisons"][
+                    "Safety pairwise comparisons"
+                ],
+                criteria=criteria,
+                countries=countries,
+                models=models,
+                config=config,
+            )
+
+        if name == "h2h_comparison":
+            plot_h2h_comparison_main_figure(
+                win_loss=inputs["win_loss"]["Win loss"],
+                criteria=criteria,
+                countries=countries,
+                models=models,
+                config=config,
+            )
+
+        if name == "irr_and_variance":
+            plot_irr_and_variance_main_figure(
+                irr_by_criterion=inputs["inter_rater_agreement"]["IRR by criterion"],
+                irr_by_model=inputs["inter_rater_agreement"]["IRR by model"],
+                variance_components=inputs["variance"]["Variance components"],
+                criteria=criteria,
+                countries=countries,
+                models=models,
+                config=config,
+            )
+
+        if name == "consistency_of_scores_over_same_response":
+            plot_consistency_of_scores_over_same_response_main_figure(
+                gap_between_scores=inputs["gap_between_scores"]["Scores gap"],
+                criteria=criteria,
+                countries=countries,
+                models=models,
+                config=config,
+            )
+
+        if name == "effect_of_response_display_position":
+            plot_effect_of_response_display_position_supp_figure(
+                position_effect=inputs["position_effect"]["Preferred side statistics"],
+                criteria=criteria,
+                countries=countries,
+                models=models,
+                config=config,
+            )
+
+    return
