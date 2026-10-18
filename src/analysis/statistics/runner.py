@@ -92,7 +92,7 @@ def run_win_loss_analysis(
         {
             "Win loss": combine_country_results(win_loss),
             "Head to head": combine_country_results(head_to_head),
-            "H2H matrices": combine_country_results(h2h_matrix),
+            "H2H matrices": (combine_country_results(h2h_matrix, False), True),
         },
         "win_loss_analysis",
         config,

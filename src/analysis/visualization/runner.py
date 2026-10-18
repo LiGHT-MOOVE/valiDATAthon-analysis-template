@@ -4,42 +4,10 @@ import pandas as pd
 from analysis.helpers import (
     export_figure,
 )
+from analysis.visualization.h2h_comparison import plot_h2h_comparison_main_figure
 from analysis.visualization.llm_performance import plot_llm_performance_main_figure
 from analysis.visualization.load import load_figure_inputs
 from utils.print_console import print_step, print_success
-
-
-def plot_h2h_comparison_main_figure(
-    win_loss: pd.DataFrame,
-    criteria,
-    countries,
-    models,
-    config,
-):
-    fig = plt.figure(figsize=(18, 18), layout="none")
-
-    n_countries = len(countries)
-
-    # Each country gets a header row followed by a plot row
-    grid = fig.add_gridspec(
-        2 * n_countries + 1,
-        2,
-        height_ratios=[0.12, 1] * n_countries + [0.08],
-        width_ratios=[1, 1],
-        left=0.10,
-        right=0.97,
-        bottom=0.08,
-        top=0.94,
-        hspace=0.18,
-        wspace=0.18,
-    )
-
-    export_figure(
-        fig,
-        "h2h_comparison",
-        config,
-    )
-    plt.close(fig)
 
 
 def plot_irr_and_variance_main_figure(
@@ -193,10 +161,12 @@ def plot_selected_figures(
         if name == "h2h_comparison":
             plot_h2h_comparison_main_figure(
                 win_loss=inputs["win_loss"]["Win loss"],
+                h2h_matrix=inputs["win_loss"]["H2H matrices"],
                 criteria=criteria,
                 countries=countries,
                 models=models,
                 config=config,
+                model_categories=model_categories,
             )
 
         if name == "irr_and_variance":

@@ -73,10 +73,16 @@ def head_to_head_data(
         if country_rankings is None:
             continue
         order = country_rankings.sort_values("Rank", ascending=False)["Model"].tolist()
-        matrix = counts.pivot(
-            index="model", columns="opposing_model", values="points_pct"
-        ).reindex(index=order, columns=order)
+
+        matrix = (
+            counts.pivot(
+                index="model",
+                columns="opposing_model",
+                values="points_pct",
+            )
+            .rename_axis(index=None, columns=None)
+            .reindex(index=order, columns=order)
+        )
         results[country] = counts
         matrices[country] = matrix
-
     return results, matrices

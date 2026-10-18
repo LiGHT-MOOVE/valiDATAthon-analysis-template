@@ -100,8 +100,7 @@ def export_figure(
     timestamp = datetime.now(ZoneInfo("Europe/Zurich")).strftime("%H%M%S")
     config.make_dirs()
     output_path = (
-        config.figures_dir
-        / f"{config.project_name}_{name}_{timestamp}.{config.output_format}"
+        config.figures_dir / f"{config.project_name}_{name}.{config.output_format}"
     )
 
     fig.savefig(
@@ -140,10 +139,10 @@ def export_model_fits(fits: dict) -> pd.DataFrame:
 
 
 def combine_country_results(
-    results: dict[str, pd.DataFrame],
+    results: dict[str, pd.DataFrame], ignore_index=True
 ) -> pd.DataFrame:
     """Combine DataFrames from multiple countries into one DataFrame."""
     return pd.concat(
         [df.assign(reviewer_country=country) for country, df in results.items()],
-        ignore_index=True,
+        ignore_index=ignore_index,
     )
