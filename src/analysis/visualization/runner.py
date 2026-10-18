@@ -8,37 +8,10 @@ from analysis.visualization.h2h_comparison import plot_h2h_comparison_main_figur
 from analysis.visualization.irr_and_variance import plot_irr_and_variance_main_figure
 from analysis.visualization.llm_performance import plot_llm_performance_main_figure
 from analysis.visualization.load import load_figure_inputs
+from analysis.visualization.scores_consistency import (
+    plot_consistency_of_scores_over_same_response_main_figure,
+)
 from utils.print_console import print_step, print_success
-
-
-def plot_consistency_of_scores_over_same_response_main_figure(
-    gap_between_scores: pd.DataFrame,
-    criteria,
-    countries,
-    models,
-    config,
-):
-
-    fig = plt.figure(figsize=(16, 13), layout="constrained")
-
-    fig4_left, fig4_subfig2 = fig.subfigures(
-        2,
-        1,
-        height_ratios=[1, 1],
-    )
-
-    fig4_subfig1, fig4_legend_footer = fig4_left.subfigures(
-        2,
-        1,
-        height_ratios=[10, 1],
-    )
-
-    export_figure(
-        fig,
-        "consistency_of_scores_over_same_response",
-        config,
-    )
-    plt.close(fig)
 
 
 def plot_effect_of_response_display_position_supp_figure(
@@ -146,11 +119,12 @@ def plot_selected_figures(
 
         if name == "consistency_of_scores_over_same_response":
             plot_consistency_of_scores_over_same_response_main_figure(
-                gap_between_scores=inputs["gap_between_scores"]["Scores gap"],
+                gap_between_scores=inputs["gap_between_scores"],
                 criteria=criteria,
                 countries=countries,
                 models=models,
                 config=config,
+                friendly_criteria=friendly_criteria,
             )
 
         if name == "effect_of_response_display_position":
