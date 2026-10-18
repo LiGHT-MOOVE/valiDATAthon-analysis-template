@@ -2,12 +2,8 @@ import textwrap
 from collections.abc import Sequence
 
 import numpy as np
-import pandas as pd
 import seaborn as sns
-from matplotlib import pyplot as plt
-from matplotlib.patches import Rectangle
 
-from analysis.visualization.config import VisualizationConfig
 from analysis.visualization.style import PlotStyle
 
 
@@ -293,3 +289,12 @@ def get_countries_offset(no_countries, space=0.18):
         space,
         no_countries,
     )
+
+
+def minimal_axis(ax, grid_axis: str = "y") -> None:
+    ax.set_facecolor("white")
+    ax.grid(axis=grid_axis, color="#E4E4E4", linewidth=0.7, zorder=0)
+    ax.grid(axis="x" if grid_axis == "y" else "y", visible=False)
+    ax.tick_params(length=0)
+    for spine in ax.spines.values():
+        spine.set_visible(False)
