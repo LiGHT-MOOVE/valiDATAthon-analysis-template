@@ -15,6 +15,7 @@ from analysis.visualization.data_processing import (
 )
 from analysis.visualization.helpers import (
     add_alternating_rows_sub_figures,
+    create_country_handles,
     finalize_figure,
     get_countries_offset,
     handle_model_label_and_category,
@@ -431,19 +432,7 @@ def plot_legend(
     footer,
     style: PlotStyle,
 ):
-    country_handles = [
-        Line2D(
-            [0],
-            [0],
-            marker="o",
-            color="none",
-            markerfacecolor=style.country_colors[country],
-            markeredgecolor=style.country_colors[country],
-            markersize=7,
-            label=country,
-        )
-        for country in style.country_colors
-    ]
+    country_handles = create_country_handles(style.country_colors)
     legend_handles_filled_hollow = [
         Line2D(
             [0],

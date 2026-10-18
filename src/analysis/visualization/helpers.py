@@ -3,6 +3,7 @@ from collections.abc import Sequence
 
 import numpy as np
 import seaborn as sns
+from matplotlib.lines import Line2D
 
 from analysis.visualization.style import PlotStyle
 
@@ -298,3 +299,19 @@ def minimal_axis(ax, grid_axis: str = "y") -> None:
     ax.tick_params(length=0)
     for spine in ax.spines.values():
         spine.set_visible(False)
+
+
+def create_country_handles(country_colors):
+    return [
+        Line2D(
+            [0],
+            [0],
+            marker="o",
+            color="none",
+            markerfacecolor=country_colors[country],
+            markeredgecolor=country_colors[country],
+            markersize=7,
+            label=country,
+        )
+        for country in country_colors
+    ]

@@ -5,48 +5,10 @@ from analysis.helpers import (
     export_figure,
 )
 from analysis.visualization.h2h_comparison import plot_h2h_comparison_main_figure
+from analysis.visualization.irr_and_variance import plot_irr_and_variance_main_figure
 from analysis.visualization.llm_performance import plot_llm_performance_main_figure
 from analysis.visualization.load import load_figure_inputs
 from utils.print_console import print_step, print_success
-
-
-def plot_irr_and_variance_main_figure(
-    irr_by_criterion: pd.DataFrame,
-    irr_by_model: pd.DataFrame,
-    variance_components: pd.DataFrame,
-    criteria,
-    countries,
-    models,
-    config,
-):
-    fig = plt.figure(figsize=(19, 15), layout="constrained")
-
-    # Main content and a full-width legend footer
-    fig3_main, fig3_footer = fig.subfigures(
-        2,
-        1,
-        height_ratios=[12, 1],
-    )
-
-    # Main content: 2/3 left, 1/3 right
-    fig3_main_left, fig3_main_subfig3 = fig.subfigures(
-        1,
-        2,
-        width_ratios=[2, 1],
-    )
-
-    fig3_subfig1, fig3_subfig2 = fig3_main_left.subfigures(
-        2,
-        1,
-        height_ratios=[1, 1.4],
-    )
-
-    export_figure(
-        fig,
-        "irr_and_variance",
-        config,
-    )
-    plt.close(fig)
 
 
 def plot_consistency_of_scores_over_same_response_main_figure(
@@ -178,6 +140,8 @@ def plot_selected_figures(
                 countries=countries,
                 models=models,
                 config=config,
+                friendly_criteria=friendly_criteria,
+                model_categories=model_categories,
             )
 
         if name == "consistency_of_scores_over_same_response":
