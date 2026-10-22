@@ -122,7 +122,7 @@ def run_position_effect_analysis(
     export_excel(
         {
             "Preferred side statistics": preferred_side_stats,
-            "Position effect on criterion score": position_effect,
+            "Position effect criterion score": position_effect,
             "Chosen response scored higher": chosen_scored_higher,
         },
         "preferred_side_analysis",

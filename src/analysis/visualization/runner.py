@@ -1,40 +1,14 @@
-import matplotlib.pyplot as plt
-import pandas as pd
-
-from analysis.helpers import (
-    export_figure,
-)
 from analysis.visualization.h2h_comparison import plot_h2h_comparison_main_figure
 from analysis.visualization.irr_and_variance import plot_irr_and_variance_main_figure
 from analysis.visualization.llm_performance import plot_llm_performance_main_figure
 from analysis.visualization.load import load_figure_inputs
+from analysis.visualization.response_display_position import (
+    plot_effect_of_response_display_position_supp_figure,
+)
 from analysis.visualization.scores_consistency import (
     plot_consistency_of_scores_over_same_response_main_figure,
 )
 from utils.print_console import print_step, print_success
-
-
-def plot_effect_of_response_display_position_supp_figure(
-    position_effect: pd.DataFrame,
-    criteria,
-    countries,
-    models,
-    config,
-):
-    fig = plt.figure(figsize=(16, 8), layout="none")  # check height
-
-    supp1_subfig1, supp1_subfig2, supp1_subfig3 = fig.subfigures(
-        1,
-        3,
-    )
-
-    export_figure(
-        fig,
-        "effect_of_response_display_position",
-        config,
-    )
-    plt.close(fig)
-
 
 # Analysis registry
 
@@ -129,11 +103,20 @@ def plot_selected_figures(
 
         if name == "effect_of_response_display_position":
             plot_effect_of_response_display_position_supp_figure(
-                position_effect=inputs["position_effect"]["Preferred side statistics"],
+                preferred_side_stats=inputs["position_effect"][
+                    "Preferred side statistics"
+                ],
+                position_effect=inputs["position_effect"][
+                    "Position effect criterion score"
+                ],
+                chosen_scored_higher=inputs["position_effect"][
+                    "Chosen response scored higher"
+                ],
                 criteria=criteria,
                 countries=countries,
                 models=models,
                 config=config,
+                friendly_criteria=friendly_criteria,
             )
 
     return
