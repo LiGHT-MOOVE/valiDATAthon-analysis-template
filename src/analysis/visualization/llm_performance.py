@@ -125,11 +125,8 @@ def plot_safety_pairwise_comparison(
     subfig,
     country_pairwise_safety_non_human,
     style: PlotStyle,
-    criteria,
     countries,
     models,
-    friendly_criteria,
-    model_categories,
 ):
     without_human_order = [model for model in models if model != "Human Benchmark"]
     axes = subfig.subplots(
@@ -273,11 +270,8 @@ def plot_safety_pairwise_comparison_human_reference(
     subfig,
     human_safety,
     style: PlotStyle,
-    criteria,
     countries,
     models,
-    friendly_criteria,
-    model_categories,
 ):
     models_without_human = [m for m in models if m != "Human Benchmark"]
     human_safety = (
@@ -533,21 +527,15 @@ def plot_llm_performance_main_figure(
             fig1_subfig2,
             human_safety,
             style,
-            criteria,
             countries,
             models,
-            friendly_criteria,
-            model_categories,
         )
     plot_safety_pairwise_comparison(
         fig1_subfig3 if is_human else fig1_subfig2,
         country_pairwise_safety_non_human,
         style,
-        criteria,
         countries,
         models,
-        friendly_criteria,
-        model_categories,
     )
     plot_legend(fig1_footer, plotted_countries, style)
     export_figure(

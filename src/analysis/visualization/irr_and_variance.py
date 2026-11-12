@@ -243,8 +243,6 @@ def plot_variance_component(
     variance_components,
     style: PlotStyle,
     criteria,
-    models,
-    model_categories,
     countries,
     friendly_criteria,
 ):
@@ -474,8 +472,6 @@ def plot_irr_and_variance_main_figure(
         variance_components,
         style,
         criteria,
-        models,
-        model_categories,
         countries,
         friendly_criteria,
     )

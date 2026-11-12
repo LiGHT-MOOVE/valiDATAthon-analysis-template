@@ -248,18 +248,18 @@ def handle_model_label_and_category(
             color="black",
         )
 
-        category_y = i - 0.13 if n_lines == 1 else i - 0.27
-
-        ax.text(
-            -0.02,
-            category_y,
-            tag.upper(),
-            transform=ax.get_yaxis_transform(),
-            ha="right",
-            va="center",
-            fontsize=style.font_value,
-            color="#666666",
-        )
+        if tag:
+            category_y = i - 0.13 if n_lines == 1 else i - 0.27
+            ax.text(
+                -0.02,
+                category_y,
+                tag.upper(),
+                transform=ax.get_yaxis_transform(),
+                ha="right",
+                va="center",
+                fontsize=style.font_value,
+                color="#666666",
+            )
 
 
 def add_alternating_rows_sub_figures(

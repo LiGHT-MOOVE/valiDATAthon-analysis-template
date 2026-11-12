@@ -259,7 +259,6 @@ def plot_h2h_comparison_main_figure(
     win_loss: pd.DataFrame,
     h2h_matrix: pd.DataFrame,
     countries,
-    models,
     config,
     model_categories,
 ):

@@ -41,12 +41,10 @@ def prepare_h2h_comparison(inputs):
             h2h_matrix.columns.drop(["reviewer_country", "Unnamed: 0"]),
         ],
     )
-    print(plot_values)
     return {
         "win_loss": win_loss,
         "h2h_matrix": h2h_matrix,
         "countries": plot_values["countries"],
-        "models": plot_values["models"],
     }
 
 
