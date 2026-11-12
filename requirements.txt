@@ -3,3 +3,19 @@ panda
 pyarrow
 
 rich
+# Data processing, configuration, and Excel files
+numpy
+pandas
+PyYAML
+openpyxl
+
+# Statistical analysis and caching
+irrCAC
+patsy
+scipy
+statsmodels
+joblib
+
+# Figures
+matplotlib
+seaborn

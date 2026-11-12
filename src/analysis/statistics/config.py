@@ -25,7 +25,6 @@ class AnalysisConfig:
     # Analysis settings
     safety_var: str = "safety_score"
     save_outputs: bool = True
-    bootstrap_n: int = 2000
     bootstrap_seed: int = 42
     confidence_level: float = 0.95
 
@@ -103,7 +102,6 @@ def load_analysis_config() -> AnalysisConfig:
         # Analysis settings
         safety_var=analysis.get("safety_var", "safety_score"),
         save_outputs=analysis.get("save_outputs", True),
-        bootstrap_n=analysis.get("bootstrap_iterations", 2000),
         bootstrap_seed=analysis.get(
             "bootstrap_seed",
             project.get("random_seed", 42),
