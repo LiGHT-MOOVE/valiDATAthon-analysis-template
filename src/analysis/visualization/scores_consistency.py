@@ -46,7 +46,7 @@ def plot_gap_between_scores(
 
     # 5 criteria, 3 countries per criterion
     y_positions = np.arange(len(criteria))
-
+    countries = far_apart_pct_all["country"].dropna().unique()
     country_offsets = np.linspace(
         -0.1 * len(countries),
         0.1 * len(countries),

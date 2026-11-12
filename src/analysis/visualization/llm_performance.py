@@ -430,9 +430,16 @@ def plot_safety_pairwise_comparison_human_reference(
 
 def plot_legend(
     footer,
+    plotted_countries,
     style: PlotStyle,
 ):
-    country_handles = create_country_handles(style.country_colors)
+
+    country_colors = {
+        country: style.country_colors[country]
+        for country in plotted_countries
+        if country in style.country_colors
+    }
+    country_handles = create_country_handles(country_colors)
     legend_handles_filled_hollow = [
         Line2D(
             [0],
@@ -490,7 +497,7 @@ def plot_llm_performance_main_figure(
     model_categories,
 ):
     style = config.style
-
+    plotted_countries = adjusted_means["reviewer_country"].dropna().unique()
     fig = plt.figure(figsize=(18, 18), layout="constrained")
     is_human = "Human Benchmark" in models
     if is_human:
@@ -542,7 +549,7 @@ def plot_llm_performance_main_figure(
         friendly_criteria,
         model_categories,
     )
-    plot_legend(fig1_footer, style)
+    plot_legend(fig1_footer, plotted_countries, style)
     export_figure(
         fig,
         "llm_performance",

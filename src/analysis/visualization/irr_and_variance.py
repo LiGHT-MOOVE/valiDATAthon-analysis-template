@@ -353,8 +353,14 @@ def plot_variance_component(
     return axes
 
 
-def plot_legend(footer, style: PlotStyle, axes):
-    country_handles = create_country_handles(style.country_colors)
+def plot_legend(footer, plotted_countries, style: PlotStyle, axes):
+
+    country_colors = {
+        country: style.country_colors[country]
+        for country in plotted_countries
+        if country in style.country_colors
+    }
+    country_handles = create_country_handles(country_colors)
 
     statistic_handles = [
         Line2D(
@@ -429,6 +435,7 @@ def plot_irr_and_variance_main_figure(
     friendly_criteria,
     model_categories,
 ):
+    plotted_countries = irr_by_model["country"].dropna().unique()
     style = config.style
     fig = plt.figure(figsize=(19, max(9, 6 * len(countries))), layout="constrained")
 
@@ -472,7 +479,8 @@ def plot_irr_and_variance_main_figure(
         countries,
         friendly_criteria,
     )
-    plot_legend(fig3_footer, style, axes)
+
+    plot_legend(fig3_footer, plotted_countries, style, axes)
     export_figure(
         fig,
         "irr_and_variance",

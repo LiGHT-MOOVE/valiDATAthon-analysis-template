@@ -30,7 +30,14 @@ def plot_side_chosen_effect(
     )
 
     country_stats["y_pos"] = np.arange(len(country_stats))
-    country_handles = create_country_handles(style.country_colors)
+    plotted_countries = country_stats["reviewer_country"].dropna().unique()
+
+    country_colors = {
+        country: style.country_colors[country]
+        for country in plotted_countries
+        if country in style.country_colors
+    }
+    country_handles = create_country_handles(country_colors)
 
     grid7 = subfig.add_gridspec(
         2,
@@ -47,8 +54,8 @@ def plot_side_chosen_effect(
         top=0.9,
     )
     for _, row in country_stats.iterrows():
-        color = style.country_colors[row["reviewer_country"]]
-
+        color = country_colors[row["reviewer_country"]]
+        country = row["reviewer_country"]
         xerr_lower = row["percentage_right"] - row["ci_lower"]
         xerr_upper = row["ci_upper"] - row["percentage_right"]
 
@@ -61,6 +68,7 @@ def plot_side_chosen_effect(
             markersize=6,
             color=color,
             ecolor=color,
+            label=country,
             zorder=2,
         )
         ax.text(
@@ -105,6 +113,7 @@ def plot_side_chosen_effect(
     )
     ax_legend = subfig.add_subplot(grid7[1, 0])
     ax_legend.set_axis_off()
+
     ax_legend.legend(
         handles=country_handles,
         loc="center",

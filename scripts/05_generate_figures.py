@@ -36,7 +36,7 @@ def main():
     print_step(4, "Get analysis characteristics")
     criteria, countries, models, countries_ordered = get_analysis_values(df)
     """
-    print(analysis_config.order_of_models, "order_of_models")
+
     plot_selected_figures(
         criteria=analysis_config.order_of_criteria,
         countries=analysis_config.order_of_countries,
