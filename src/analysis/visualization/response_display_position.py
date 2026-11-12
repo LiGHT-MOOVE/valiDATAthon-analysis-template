@@ -306,7 +306,6 @@ def plot_effect_of_response_display_position_supp_figure(
     chosen_scored_higher: pd.DataFrame,
     criteria,
     countries,
-    models,
     config,
     friendly_criteria,
 ):

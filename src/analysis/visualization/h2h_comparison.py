@@ -258,7 +258,6 @@ def plot_head_to_head(
 def plot_h2h_comparison_main_figure(
     win_loss: pd.DataFrame,
     h2h_matrix: pd.DataFrame,
-    criteria,
     countries,
     models,
     config,
@@ -329,28 +328,6 @@ def plot_h2h_comparison_main_figure(
             columns=["reviewer_country"],
             errors="ignore",
         )
-        """
-        # Reorder rows and columns according to the desired model order
-        h2h_matrix_country = h2h_matrix_country.reindex(
-            index=models,
-            columns=models,
-        )
-        """
-
-        """
-        proportions = (
-            df_country.groupby(["model", "preferred"], observed=True)
-            .size()
-            .groupby(level=0)
-            .transform(lambda x: x / x.sum())
-            .rename("pct")
-            .reset_index()
-            .pivot(index="model", columns="preferred", values="pct")
-            .fillna(0)
-            .reindex(models)
-            .reindex(columns=["yes", "equal", "no"], fill_value=0)
-        )
-        """
         plot_win_loss(
             win_loss_country,
             style,

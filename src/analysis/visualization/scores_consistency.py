@@ -248,7 +248,7 @@ def plot_scores_on_both_sides(
 
 
 def plot_consistency_of_scores_over_same_response_main_figure(
-    gap_between_scores, criteria, countries, models, config, friendly_criteria
+    gap_between_scores, criteria, countries, config, friendly_criteria
 ):
     style = config.style
     scores_gap = gap_between_scores["Scores gap"]

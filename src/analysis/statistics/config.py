@@ -36,7 +36,6 @@ class AnalysisConfig:
     # Model configuration
     friendly_models: Mapping[str, str] = field(default_factory=dict)
     model_categories: Mapping[str, str] = field(default_factory=dict)
-    order_of_models: tuple[str, ...] = ()
 
     # Criterion configuration
     friendly_criteria: Mapping[str, str] = field(default_factory=dict)
@@ -116,7 +115,6 @@ def load_analysis_config() -> AnalysisConfig:
         # Model configuration
         friendly_models=models.get("friendly_names", {}),
         model_categories=models.get("categories", {}),
-        order_of_models=tuple(models.get("order", [])),
         # Criterion configuration
         friendly_criteria=criteria.get("friendly_names", {}),
         order_of_criteria=tuple(criteria.get("order", [])),
