@@ -1,5 +1,5 @@
 project:
-  name: clinical_ai_evaluation
+  name: clinical_ai_evaluation3
   random_seed: 42
 
 paths:
@@ -9,20 +9,25 @@ paths:
 
 data:
   countries:
-    - name: kenya
-      answers: Kenya PHC - Answers.csv
-      reviews: Kenya PHC - Reviews.csv
+    - name: Kenya
+      answers: Kenya PHC mini - Answers.csv
+      reviews: Kenya PHC mini - Reviews.csv
 
-    - name: malawi
-      answers: answers.csv
-      reviews: reviews.csv
+    - name: Malawi
+      answers: Malawi PHC Mini - Answers.csv
+      reviews: Malawi PHC Mini - Reviews.csv
 
-    - name: ethiopia
-      answers: EMped Ethiopia - Answers.csv
-      reviews: EMped Ethiopia - Reviews.csv
+    - name: Tanzania
+      answers: Tanzania PHC mini - Answers.csv
+      reviews: Tanzania PHC mini - Reviews.csv
+
+merge:
+  # Input paths are relative to the repository root.
+  inputs:
+    - data/processed/Kenya_preprocessed_reviews.csv
+    - data/processed/Malawi_preprocessed_reviews.csv
 
 analysis:
-  bootstrap_iterations: 2000
   confidence_level: 0.95
 
 visualization:

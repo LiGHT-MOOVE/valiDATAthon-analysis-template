@@ -61,7 +61,7 @@ data:
   countries:
     - name: my_country
       answers: my_country - Answers.csv
-      reviews: my_country mini - Reviews.csv
+      reviews: my_country - Reviews.csv
 ```
 
 The example above shows the path and country settings for one country. The supplied configuration also includes entries for other countries.
@@ -88,9 +88,16 @@ Repeat preprocessing for each country whose cleaned dataset you plan to use in a
 
 ## Merge country reviews (optional)
 
-Use [`scripts/02b_merge_processed_data.py`](scripts/02b_merge_processed_data.py) when you need one review dataset for a combined analysis across countries. For a single-country analysis, use that country's preprocessed CSV directly.
+Use [`scripts/02b_merge_processed_data.py`](scripts/02b_merge_processed_data.py) to combine preprocessed review datasets from two or more countries. For a single-country analysis, use that country's preprocessed CSV directly.
 
-Run `02_preprocess_data.py` for each country you want to include. The merge script reads every file matching `*_preprocessed_reviews.csv` in the directory configured by `paths.processed_data`. Check that this directory contains only the matching files you want to combine. If it contains no matching files, run preprocessing first.
+Run `02_preprocess_data.py` for each country you want to include. In [`configs/config.yaml`](configs/config.yaml), list the CSVs under `merge.inputs`. Enter at least two distinct paths relative to the repository root, using the exact filenames produced by preprocessing.
+
+```yaml
+merge:
+  inputs:
+    - data/processed/reviews_country1.csv
+    - data/processed/reviews_country2.csv
+```
 
 From the repository root, run:
 
@@ -98,14 +105,21 @@ From the repository root, run:
 python scripts/02b_merge_processed_data.py
 ```
 
-The script stacks the country datasets row by row and assigns a new sequential `review_id` starting at 1 across the combined dataset. It prints the row count for each input file, lists any `battle_id` values that occur in more than two merged rows, and reports the final row and column counts and the number of rows per `reviewer_country`.
+The script reads the listed files in configuration order, appends their rows, and assigns a new sequential `review_id` starting at 1. It reports the input row counts, flags `battle_id` values that occur in more than two merged rows, and summarizes the combined dataset by `reviewer_country`. The output is written to `all_countries_reviews.csv` under `paths.processed_data` (`data/processed/` by default).
 
-With the default paths, the combined dataset is saved to `data/processed/all_countries_reviews.csv`.
+The merge script is designed for country datasets produced by the valiDATAthon preprocessing step. If you use it for other datasets, you may need to adapt it.
 
 ## Run descriptive analysis
 
-[`scripts/03_descriptive_analysis.py`](scripts/03_descriptive_analysis.py) summarizes the dataset selected in the analysis configuration. After preprocessing, set the analysis dataset path to the country-specific preprocessed CSV for a single-country analysis or to `all_countries_reviews.csv` after running the optional merge.
+[`scripts/03_descriptive_analysis.py`](scripts/03_descriptive_analysis.py) summarizes the dataset selected in the analysis configuration. After preprocessing, set the analysis dataset path from `configs/analysis.yaml`.
 
+Set `analysis_file` relative to the repository root. Replace the placeholder with the path to your dataset.
+```yaml
+paths:
+  outputs: ..
+  # this path should be relative path from you root directory
+  analysis_file: your_dataset_path_to_be_analyzed.csv
+```
 From the repository root, run:
 
 ```bash
@@ -122,6 +136,19 @@ The script checks that the configured input exists, loads it, and validates the 
 ## Run statistical analysis
 
 [`scripts/04_statistical_analysis.py`](scripts/04_statistical_analysis.py) runs the statistical analyses enabled in [`configs/analysis.yaml`](configs/analysis.yaml). Set `paths.analysis_file` to a preprocessed country CSV or to the CSV from the optional merge. The script loads and prepares that dataset directly, so it can run independently of the descriptive analysis.
+
+Set `analysis_file` relative to the repository root. Replace the placeholder with the path to your dataset.
+```yaml
+paths:
+  outputs: ..
+  # this path should be relative path from you root directory
+  analysis_file: your_dataset_path_to_be_analyzed.csv
+```
+From the repository root, run:
+
+```bash
+python scripts/03_descriptive_analysis.py
+```
 
 | Setting | What it controls |
 | --- | --- |
