@@ -3,7 +3,7 @@ project:
   random_seed: 42
 
 paths:
-  outputs: outputs
+  outputs: outputs/eth
   analysis_file: data/processed/ethiopia_preprocessed_reviews.csv
 
 cache:
@@ -21,23 +21,12 @@ analyses:
   adjusted_mean_score: true
   safety_pairwise_comparisons: true
   win_loss: true
-  position_effect: true
-  inter_rater_agreement: true
-  variance: true
-  gap_between_scores: true
+  position_effect: false
+  inter_rater_agreement: false
+  variance: false
+  gap_between_scores: false
 
 models:
-  order:
-    #- Human Benchmark
-    - Apertus-Meditron
-    - Qwen 3
-    - MedGemma
-    - Meditron CHUV
-    - GPT-OSS
-    - GPT-5.5
-    
-
-
   friendly_names:
     #Human Benchmark: Human Benchmark
     Apertus-MeditronFO: Apertus-Meditron

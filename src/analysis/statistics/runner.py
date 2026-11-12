@@ -37,7 +37,7 @@ def run_adjusted_mean_score_analysis(
     adjusted_means, model_fits = fit_mixed_models_by_country_and_criterion(
         df,
         criteria,
-        config.order_of_models,
+        models,
         memory,
     )
 
