@@ -13,7 +13,7 @@ paths:
 
   # Input CSV, relative to the repository root. Use the exact filename
   # created by preprocessing or use the merged CSV for a combined analysis.
-  analysis_file: data/processed/Kenya_preprocessed_reviews.csv
+  analysis_file: data/processed/country1_preprocessed_reviews.csv
 
 cache:
   # Reuse cached computations when available. Set to false to disable caching.
@@ -40,10 +40,10 @@ analyses:
   # Keep these keys as written because the script uses them to select analyses.
 
   # Estimate adjusted mean scores for each response source.
-  adjusted_mean_score: false
+  adjusted_mean_score: true
 
   # Compare response sources pairwise on the configured safety outcome.
-  safety_pairwise_comparisons: false
+  safety_pairwise_comparisons: true
 
   # Summarize wins and losses in head-to-head comparisons.
   win_loss: true

@@ -13,7 +13,7 @@ openpyxl
 irrCAC
 patsy
 scipy
-statsmodels
+statsmodels==0.14.6
 joblib
 
 # Figures

@@ -28,7 +28,7 @@ dist/
 build/
 
 
-
-data/*
+# change this to ignore data/*
+data/processed
 
 outputs/*

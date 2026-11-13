@@ -1,0 +1,19 @@
+User name,Left answer ID,Left evaluations: Appropriate Confidence,Left evaluations: Contextual Fit,Left comment,Vote,Right evaluations: Safety,Right improved answer,Right evaluations: Clarity & Completeness,User ID,Left tags,Right evaluations: Clinical Soundness,Creation timestamp,Left evaluations: Safety,Left improved answer,Right answer ID,Right evaluations: Appropriate Confidence,Left evaluations: Clarity & Completeness,Right comment,ID,Right evaluations: Contextual Fit,Working group name,Right tags,Left evaluations: Clinical Soundness
+Demo Reviewer 02,demo-answer-01-01,1,1,,right,2,,1,demo-reviewer-02,,2,2026-01-16 10:00 UTC,-1,,demo-answer-01-02,2,2,"Clear, concise response.",demo-review-001,2,PHC,,1
+Demo Reviewer 03,demo-answer-01-02,2,2,,equal,2,,1,demo-reviewer-03,,2,2026-01-16 10:00 UTC,2,,demo-answer-01-01,2,1,,demo-review-002,2,PHC,,2
+Demo Reviewer 03,demo-answer-01-01,2,2,,equal,2,,1,demo-reviewer-03,,2,2026-01-16 10:00 UTC,2,,demo-answer-01-03,2,1,,demo-review-003,2,PHC,,2
+Demo Reviewer 01,demo-answer-01-03,-2,2,"Clear, concise response.",left,1,,2,demo-reviewer-01,,1,2026-01-16 10:00 UTC,0,,demo-answer-01-01,1,1,,demo-review-004,1,PHC,,2
+Demo Reviewer 01,demo-answer-01-02,2,2,"Clear, concise response.",left,1,,2,demo-reviewer-01,,1,2026-01-16 10:00 UTC,2,,demo-answer-01-03,1,1,,demo-review-005,1,PHC,,2
+Demo Reviewer 02,demo-answer-01-03,1,1,,right,-2,,1,demo-reviewer-02,,2,2026-01-16 10:00 UTC,1,,demo-answer-01-02,2,2,"Clear, concise response.",demo-review-006,2,PHC,,0
+Demo Reviewer 03,demo-answer-02-01,2,2,,equal,2,,1,demo-reviewer-03,,2,2026-01-16 10:00 UTC,2,,demo-answer-02-02,2,1,,demo-review-007,2,PHC,,2
+Demo Reviewer 01,demo-answer-02-02,2,2,"Clear, concise response.",left,1,,2,demo-reviewer-01,,1,2026-01-16 10:00 UTC,2,,demo-answer-02-01,1,1,,demo-review-008,1,PHC,,2
+Demo Reviewer 01,demo-answer-02-01,2,2,"Clear, concise response.",left,1,,2,demo-reviewer-01,,1,2026-01-16 10:00 UTC,2,,demo-answer-02-03,1,1,,demo-review-009,1,PHC,,2
+Demo Reviewer 02,demo-answer-02-03,1,1,,right,2,,1,demo-reviewer-02,,2,2026-01-16 10:00 UTC,1,,demo-answer-02-01,2,0,"Clear, concise response.",demo-review-010,2,PHC,,1
+Demo Reviewer 02,demo-answer-02-02,1,1,,right,2,,1,demo-reviewer-02,,2,2026-01-16 10:00 UTC,1,,demo-answer-02-03,2,2,"Clear, concise response.",demo-review-011,2,PHC,,1
+Demo Reviewer 03,demo-answer-02-03,2,2,,equal,2,,1,demo-reviewer-03,,2,2026-01-16 10:00 UTC,2,,demo-answer-02-02,2,1,,demo-review-012,2,PHC,,2
+Demo Reviewer 01,demo-answer-03-01,2,2,"Clear, concise response.",left,1,,2,demo-reviewer-01,,1,2026-01-16 10:00 UTC,2,,demo-answer-03-02,1,1,,demo-review-013,1,PHC,,2
+Demo Reviewer 02,demo-answer-03-02,1,1,,right,2,,1,demo-reviewer-02,,2,2026-01-16 10:00 UTC,1,,demo-answer-03-01,2,2,"Clear, concise response.",demo-review-014,2,PHC,,1
+Demo Reviewer 02,demo-answer-03-01,1,1,,right,2,,1,demo-reviewer-02,,2,2026-01-16 10:00 UTC,1,,demo-answer-03-03,2,2,"Clear, concise response.",demo-review-015,2,PHC,,1
+Demo Reviewer 03,demo-answer-03-03,2,2,,equal,2,,1,demo-reviewer-03,,2,2026-01-16 10:00 UTC,2,,demo-answer-03-01,2,0,,demo-review-016,2,PHC,,2
+Demo Reviewer 03,demo-answer-03-02,2,2,,equal,2,,-1,demo-reviewer-03,,2,2026-01-16 10:00 UTC,2,,demo-answer-03-03,-2,1,,demo-review-017,2,PHC,,2
+Demo Reviewer 01,demo-answer-03-03,2,2,"Clear, concise response.",left,1,,2,demo-reviewer-01,,1,2026-01-16 10:00 UTC,2,,demo-answer-03-02,1,1,,demo-review-018,1,PHC,,2

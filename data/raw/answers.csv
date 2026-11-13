@@ -1,0 +1,10 @@
+ID,Creation timestamp,Question ID,Answer,Model,User ID,User name,Working group name
+demo-answer-01-01,2026-01-15 09:00 UTC,demo-question-01,"In this fictional vignette, ask what prevents the patient from attending follow-up.",Demo Model A,demo-author-01,Demo Author 01,PHC
+demo-answer-01-02,2026-01-15 09:00 UTC,demo-question-01,"Check whether transport is a barrier, then discuss options.",Demo Model B,demo-author-02,Demo Author 02,PHC
+demo-answer-01-03,2026-01-15 09:00 UTC,demo-question-01,Ask about barriers and agree on a follow-up plan.,Demo Human Benchmark,demo-author-03,Demo Author 03,PHC
+demo-answer-02-01,2026-01-15 09:00 UTC,demo-question-02,Confirm the patient’s understanding by asking them to explain the plan in their own words.,Demo Model A,demo-author-01,Demo Author 01,PHC
+demo-answer-02-02,2026-01-15 09:00 UTC,demo-question-02,Summarize the plan in plain language and invite questions.,Demo Model B,demo-author-02,Demo Author 02,PHC
+demo-answer-02-03,2026-01-15 09:00 UTC,demo-question-02,Check whether the patient has any questions about the plan.,Demo Human Benchmark,demo-author-03,Demo Author 03,PHC
+demo-answer-03-01,2026-01-15 09:00 UTC,demo-question-03,Ask which language the patient prefers for the discussion.,Demo Model A,demo-author-01,Demo Author 01,PHC
+demo-answer-03-02,2026-01-15 09:00 UTC,demo-question-03,Offer language support and confirm the patient’s preference.,Demo Model B,demo-author-02,Demo Author 02,PHC
+demo-answer-03-03,2026-01-15 09:00 UTC,demo-question-03,Ask about communication preferences before discussing the plan.,Demo Human Benchmark,demo-author-03,Demo Author 03,PHC

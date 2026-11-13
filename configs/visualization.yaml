@@ -72,9 +72,8 @@ plots:
   # Assign colors to the country keys used by the plotting code.
   # Match spelling and capitalization. Keep hex color values quoted.
   countries:
-    ethiopia: "#1C9487"
-    Malawi: "#BE7325"
-    Tanzania: "#424F8D"
+    country1: "#1C9487"
+    country2: "#BE7325"
 
   # Colors for positive, neutral, and negative comparison results.
   comparisons:

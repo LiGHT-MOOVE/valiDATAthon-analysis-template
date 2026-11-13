@@ -2,6 +2,8 @@
 
 This repository provides a configurable Python workflow for analyzing valiDATAthon data. The scripts in `scripts/` are run individually. Some stages use files produced by earlier scripts, so run the scripts that generate those inputs first. Shared analysis code lives in `src/`, and project settings live in `configs/`.
 
+See [ANALYSIS.md](ANALYSIS.md) for what each analysis measures, how to interpret the results, and the limitations of the workflow.
+
 ## Repository layout
 
 | Path | Contents |
@@ -34,6 +36,11 @@ With Conda installed, open a terminal in the repository root, where
 
    ```bash
    python -m pip install -r requirements.txt
+   ```
+4. Install the project in editable mode.
+
+   ```bash
+   python -m pip install -e .
    ```
 
 

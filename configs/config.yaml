@@ -28,17 +28,9 @@ data:
       answers: answers.csv
       reviews: reviews.csv
 
-    - name: Kenya
-      answers: Kenya PHC - Answers.csv
-      reviews: Kenya PHC - Reviews.csv
-
-    - name: Malawi
-      answers: Malawi PHC Mini - Answers.csv
-      reviews: Malawi PHC Mini - Reviews.csv
-
-    - name: Tanzania
-      answers: Tanzania PHC mini - Answers.csv
-      reviews: Tanzania PHC mini - Reviews.csv
+    # - name: country2
+    #   answers: answers2.csv
+    #   reviews: reviews2.csv
 
 merge:
   # Optional (belongs to scripts/02b_merge_processed_data.py). 
@@ -48,5 +40,5 @@ merge:
   # Paths are relative to the repository root. The example merges country1
   # and country2.
   inputs:
-    - data/processed/Kenya_preprocessed_reviews.csv
-    - data/processed/Malawi_preprocessed_reviews.csv
+    - data/processed/country1_preprocessed_reviews.csv
+    - data/processed/country2_preprocessed_reviews.csv
