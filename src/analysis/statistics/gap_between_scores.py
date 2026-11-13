@@ -1,94 +1,47 @@
 import pandas as pd
 
 
-def get_scores_gap(
-    df,
-    criteria,
-):
+def get_scores_gap(df, criteria):
+    gap_labels = {
+        0: "Same score",
+        1: "1 point apart",
+        2: "2 points apart",
+        3: "≥3 points apart",
+    }
+    categories = list(gap_labels.values())
+    percentage_columns = [f"% {category}" for category in categories]
+    output_columns = ["country", "criterion", *categories, *percentage_columns]
     results = []
 
-    for (country, battle_id), group in df.groupby(["reviewer_country", "battle_id"]):
+    for (country, _battle_id), group in df.groupby(["reviewer_country", "battle_id"]):
         if len(group) != 2:
             continue
 
-        preferred = group["preferred"].iloc[0]
-
         for criterion in criteria:
-            first_score = group.iloc[0][criterion]
-            second_score = group.iloc[1][criterion]
+            first_score, second_score = group[criterion]
 
-            if preferred == "yes":
-                preferred_score = first_score
-                nonpreferred_score = second_score
+            if pd.isna(first_score) or pd.isna(second_score):
+                continue
 
-            elif preferred == "no":
-                preferred_score = second_score
-                nonpreferred_score = first_score
+            gap = abs(float(first_score) - float(second_score))
+            results.append((country, criterion, min(gap, 3)))
 
-            else:
-                preferred_score = second_score
-                nonpreferred_score = first_score
+    if not results:
+        return pd.DataFrame(columns=output_columns)
 
-            results.append(
-                {
-                    "country": country,
-                    "battle_id": battle_id,
-                    "criterion": criterion,
-                    "preferred_higher": preferred_score > nonpreferred_score,
-                    "far_apart": abs(preferred_score - nonpreferred_score),
-                }
-            )
-
-    preferred_results_all = pd.DataFrame(results)
-    far_apart_results_all = (
-        preferred_results_all.groupby(["country", "criterion"])["far_apart"]
-        .value_counts()
+    gaps = pd.DataFrame(results, columns=["country", "criterion", "gap"])
+    counts = (
+        gaps.groupby(["country", "criterion", "gap"])
+        .size()
         .unstack(fill_value=0)
-        .reset_index()
-    )
-    far_apart_results_all["≥3 points apart"] = (
-        far_apart_results_all[3] + far_apart_results_all[4]
+        .reindex(columns=list(gap_labels), fill_value=0)
+        .rename(columns=gap_labels)
     )
 
-    far_apart_results_all = far_apart_results_all.drop(columns=[3, 4])
-    far_apart_results_all = far_apart_results_all.rename(
-        columns={
-            0: "Same score",
-            1: "1 point apart",
-            2: "2 points apart",
-        }
-    )
-    # Rename categories
-    far_apart_pct_all = far_apart_results_all.rename(
-        columns={
-            0: "Same score",
-            1: "1 point apart",
-            2: "2 points apart",
-        }
-    )
-    categories = [
-        "Same score",
-        "1 point apart",
-        "2 points apart",
-        "≥3 points apart",
-    ]
+    percentages = counts.div(counts.sum(axis=1), axis=0).mul(100)
+    percentages.columns = percentage_columns
 
-    categories_pct = [
-        "% Same score",
-        "% 1 point apart",
-        "% 2 points apart",
-        "% ≥3 points apart",
-    ]
-
-    # Convert counts to percentages
-    far_apart_pct_all[categories_pct] = (
-        far_apart_pct_all[categories].div(
-            far_apart_pct_all[categories].sum(axis=1),
-            axis=0,
-        )
-        * 100
-    )
-    return far_apart_pct_all
+    return counts.join(percentages).rename_axis(columns=None).reset_index()
 
 
 def compute_same_answer_both_sides_scores(df, criteria, scores):

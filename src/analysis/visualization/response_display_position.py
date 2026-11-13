@@ -33,7 +33,7 @@ def plot_side_chosen_effect(
     plotted_countries = country_stats["reviewer_country"].dropna().unique()
 
     country_colors = {
-        country: style.country_colors[country]
+        country: style.country_colors.get(country, "#808080")
         for country in plotted_countries
         if country in style.country_colors
     }
@@ -54,7 +54,7 @@ def plot_side_chosen_effect(
         top=0.9,
     )
     for _, row in country_stats.iterrows():
-        color = country_colors[row["reviewer_country"]]
+        color = country_colors.get(row["reviewer_country"], "#808080")
         country = row["reviewer_country"]
         xerr_lower = row["percentage_right"] - row["ci_lower"]
         xerr_upper = row["ci_upper"] - row["percentage_right"]
@@ -80,7 +80,7 @@ def plot_side_chosen_effect(
             va="center",
             fontsize=style.font_value,
             fontweight="bold",
-            color=style.country_colors[row.reviewer_country],
+            color=country_colors.get(row.reviewer_country, "#808080"),
         )
 
     style_x_axes(
@@ -99,7 +99,7 @@ def plot_side_chosen_effect(
         ylabels=country_stats["reviewer_country"],
     )
     for label in ax.get_yticklabels():
-        label.set_color(style.country_colors[label.get_text()])
+        label.set_color(style.country_colors.get(label.get_text(), "#808080"))
         label.set_fontweight("bold")
 
     ax.set_ylabel("")
@@ -165,8 +165,8 @@ def plot_position_effect(
             fmt="o",
             capsize=3,
             markersize=6,
-            color=style.country_colors[country],
-            ecolor=style.country_colors[country],
+            color=style.country_colors.get(country, "#808080"),
+            ecolor=style.country_colors.get(country, "#808080"),
             label=country,
             zorder=2,
         )
@@ -180,7 +180,7 @@ def plot_position_effect(
                 va="center",
                 fontsize=style.font_value,
                 fontweight="bold",
-                color=style.country_colors[country],
+                color=style.country_colors.get(country, "#808080"),
             )
 
     style_x_axes(
@@ -252,8 +252,8 @@ def plot_chosen_response_scored_higher(
             fmt="o",
             capsize=4,
             label=country,
-            color=style.country_colors[country],
-            ecolor=style.country_colors[country],
+            color=style.country_colors.get(country, "#808080"),
+            ecolor=style.country_colors.get(country, "#808080"),
         )
         for yi, value in zip(y_positions + offset, x):
             ax.text(
@@ -265,7 +265,7 @@ def plot_chosen_response_scored_higher(
                 va="center",
                 fontsize=style.font_value,
                 fontweight="bold",
-                color=style.country_colors[country],
+                color=style.country_colors.get(country, "#808080"),
                 clip_on=False,
             )
 
