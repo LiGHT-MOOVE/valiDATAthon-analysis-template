@@ -4,7 +4,7 @@
 
 project:
   # Short name for your study or evaluation project.
-  name: clinical_ai_evaluation3
+  name: clinical_ai_evaluation
 
 paths:
   # Directory paths are relative to the repository root.
@@ -24,9 +24,13 @@ data:
   countries:
     # The country name is used to identify the dataset and name its outputs.
     # The answers and reviews entries are filenames inside paths.raw_data.
+    - name: country1
+      answers: answers.csv
+      reviews: reviews.csv
+
     - name: Kenya
-      answers: Kenya PHC mini - Answers.csv
-      reviews: Kenya PHC mini - Reviews.csv
+      answers: Kenya PHC - Answers.csv
+      reviews: Kenya PHC - Reviews.csv
 
     - name: Malawi
       answers: Malawi PHC Mini - Answers.csv

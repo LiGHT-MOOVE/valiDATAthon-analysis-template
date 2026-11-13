@@ -120,7 +120,9 @@ def plot_win_loss(
 
     # Model category labels
     for y_pos, model in zip(y, models):
-        tag = model_categories[model]
+        tag = model_categories.get(model)
+        if tag is None:
+            continue
 
         text = ax.text(
             -0.005,
@@ -293,7 +295,7 @@ def plot_h2h_comparison_main_figure(
             transform=header_ax.transAxes,
             fontsize=style.font_title,
             fontweight="bold",
-            color=style.country_colors[country],
+            color=style.country_colors.get(country, "#808080"),
             ha="left",
             va="center",
         )
@@ -302,7 +304,7 @@ def plot_h2h_comparison_main_figure(
             [-0.05, 1],
             [0.35, 0.35],
             transform=header_ax.transAxes,
-            color=style.country_colors[country],
+            color=style.country_colors.get(country, "#808080"),
             linewidth=5,
             clip_on=False,
         )

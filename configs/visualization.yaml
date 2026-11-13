@@ -12,7 +12,7 @@ paths:
   # Base output directory and destination for generated figures.
   # Set these paths relative to the repository root.
   outputs: outputs
-  figures: outputs/eth/figures
+  figures: outputs/figures
 
   # Point each enabled figure group to its statistical results files.
   # Replace the example paths with the exact paths from your run,
@@ -21,25 +21,25 @@ paths:
   analysis_inputs:
     # Adjusted mean scores and pairwise safety comparisons.
     llm_performance:
-      adjusted_mean_score: outputs/eth/docs/20261112/clinical_ai_evaluation_adjusted_mean_score.xlsx
-      safety_pairwise_comparisons: outputs/eth/docs/20261112/clinical_ai_evaluation_safety_pairwise_comparisons.xlsx
+      adjusted_mean_score: outputs/docs/20261113/clinical_ai_evaluation_adjusted_mean_score.xlsx
+      safety_pairwise_comparisons: outputs/docs/20261113/clinical_ai_evaluation_safety_pairwise_comparisons.xlsx
 
     # Head-to-head win–loss results.
     h2h_comparison:
-      win_loss: outputs/docs/20261018/clinical_ai_evaluation_win_loss_analysis_153800.xlsx
+      win_loss: outputs/docs/20261113/clinical_ai_evaluation_win_loss_analysis.xlsx
 
     # Inter-rater agreement estimates and variance components.
     irr_and_variance:
-      inter_rater_agreement: outputs/docs/20261016/clinical_ai_evaluation_inter_rater_agreement_145218.xlsx
-      variance: outputs/docs/20261016/clinical_ai_evaluation_variance_components_145417.xlsx
+      inter_rater_agreement: outputs/docs/20261113/clinical_ai_evaluation_inter_rater_agreement.xlsx
+      variance: outputs/docs/20261113/clinical_ai_evaluation_variance_components.xlsx
 
     # Differences between reviewers' scores for the same response.
     consistency_of_scores_over_same_response:
-      gap_between_scores: outputs/docs/20261016/clinical_ai_evaluation_scores_gap_145417.xlsx
+      gap_between_scores: outputs/docs/20261113/clinical_ai_evaluation_scores_gap.xlsx
 
     # Results for the effect of response display position on preference.
     effect_of_response_display_position:
-      position_effect: outputs/docs/20261016/clinical_ai_evaluation_preferred_side_analysis_145218.xlsx
+      position_effect: outputs/docs/20261113/clinical_ai_evaluation_preferred_side_analysis.xlsx
 
 plots:
   # Set to true to save figures to paths.figures.

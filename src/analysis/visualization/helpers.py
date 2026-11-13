@@ -221,8 +221,9 @@ def handle_model_label_and_category(
     style=PlotStyle,
 ):
     for i, model in enumerate(models):
-        tag = model_categories[model]
-
+        tag = model_categories.get(model)
+        if tag is None:
+            continue
         model_label = (
             textwrap.fill(
                 model,

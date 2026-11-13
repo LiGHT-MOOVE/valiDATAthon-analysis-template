@@ -62,7 +62,7 @@ def plot_adjusted_mean_score(
                 ],
                 fmt="o",
                 capsize=3,
-                color=style.country_colors[country],
+                color=style.country_colors.get(country, "#808080"),
                 label=country,
                 zorder=2,
             )
@@ -76,7 +76,7 @@ def plot_adjusted_mean_score(
                     va="center",
                     fontsize=style.font_value,
                     fontweight="bold",
-                    color=style.country_colors[country],
+                    color=style.country_colors.get(country, "#808080"),
                 )
 
         style_x_axes(
@@ -239,7 +239,7 @@ def plot_safety_pairwise_comparison(
             xmin=0,
             xmax=1,
             transform=ax.transAxes,
-            color=style.country_colors[country],
+            color=style.country_colors.get(country, "#808080"),
             linewidth=5,
             clip_on=False,
         )
@@ -309,9 +309,9 @@ def plot_safety_pairwise_comparison_human_reference(
             ],
             fmt="o",
             capsize=3,
-            color=style.country_colors[country],
-            markerfacecolor=style.country_colors[country],
-            markeredgecolor=style.country_colors[country],
+            color=style.country_colors.get(country, "#808080"),
+            markerfacecolor=style.country_colors.get(country, "#808080"),
+            markeredgecolor=style.country_colors.get(country, "#808080"),
             markersize=6,
             zorder=2,
         )
@@ -328,9 +328,9 @@ def plot_safety_pairwise_comparison_human_reference(
             ],
             fmt="o",
             capsize=3,
-            color=style.country_colors[country],
+            color=style.country_colors.get(country, "#808080"),
             markerfacecolor="white",
-            markeredgecolor=style.country_colors[country],
+            markeredgecolor=style.country_colors.get(country, "#808080"),
             markersize=6,
             zorder=2,
         )
@@ -351,14 +351,14 @@ def plot_safety_pairwise_comparison_human_reference(
                 va="center",
                 fontsize=style.font_value,
                 fontweight="bold",
-                color=style.country_colors[country],
+                color=style.country_colors.get(country, "#808080"),
                 clip_on=False,
             )
 
         ax.set_title(
             country,
             fontweight="bold",
-            color=style.country_colors[country],
+            color=style.country_colors.get(country, "#808080"),
             pad=28,
             fontsize=style.font_title,
         )
@@ -429,7 +429,7 @@ def plot_legend(
 ):
 
     country_colors = {
-        country: style.country_colors[country]
+        country: style.country_colors.get(country, "#808080")
         for country in plotted_countries
         if country in style.country_colors
     }

@@ -79,10 +79,10 @@ def plot_irr_by_criterion(
                 label=country,
                 linewidth=1.2,
                 zorder=3,
-                color=style.country_colors[country],
+                color=style.country_colors.get(country, "#808080"),
                 markerfacecolor="white"
                 if statistic_key == "krippendorff_alpha"
-                else style.country_colors[country],
+                else style.country_colors.get(country, "#808080"),
                 alpha=alpha,
             )
             if statistic_key == "gwet_ac2":
@@ -99,7 +99,7 @@ def plot_irr_by_criterion(
                     va="center",
                     fontsize=style.font_value,
                     fontweight="bold",
-                    color=style.country_colors[country],
+                    color=style.country_colors.get(country, "#808080"),
                     clip_on=False,
                     zorder=5,
                 )
@@ -190,11 +190,11 @@ def plot_irr_by_model(
                 markersize=6,
                 label=country,
                 linewidth=1.2,
-                color=style.country_colors[country],
-                markeredgecolor=style.country_colors[country],
+                color=style.country_colors.get(country, "#808080"),
+                markeredgecolor=style.country_colors.get(country, "#808080"),
                 markerfacecolor="white"
                 if statistic_key == "krippendorff_alpha"
-                else style.country_colors[country],
+                else style.country_colors.get(country, "#808080"),
                 alpha=alpha,
                 zorder=3,
             )
@@ -213,7 +213,7 @@ def plot_irr_by_model(
                     va="center",
                     fontsize=style.font_value,
                     fontweight="bold",
-                    color=style.country_colors[country],
+                    color=style.country_colors.get(country, "#808080"),
                     clip_on=False,
                     zorder=5,
                 )
@@ -317,7 +317,7 @@ def plot_variance_component(
         )
         ax.tick_params(axis="y", length=0)
         for tick, country in zip(ax.get_yticklabels(), plot_df["country"]):
-            tick.set_color(style.country_colors[country])
+            tick.set_color(style.country_colors.get(country, "#808080"))
 
         ax.set_title(
             criterion_name(criterion, friendly_criteria),
@@ -354,7 +354,7 @@ def plot_variance_component(
 def plot_legend(footer, plotted_countries, style: PlotStyle, axes):
 
     country_colors = {
-        country: style.country_colors[country]
+        country: style.country_colors.get(country, "#808080")
         for country in plotted_countries
         if country in style.country_colors
     }

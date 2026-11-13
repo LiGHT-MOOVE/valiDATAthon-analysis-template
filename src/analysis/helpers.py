@@ -62,7 +62,7 @@ def export_excel(
 
     timestamp = datetime.now(ZoneInfo("Europe/Zurich")).strftime("%H%M%S")
     config.make_dirs()
-    output_path = config.docs_dir / f"{config.tag}_{name}_{timestamp}.xlsx"
+    output_path = config.docs_dir / f"{config.tag}_{name}.xlsx"
 
     with pd.ExcelWriter(output_path, engine="openpyxl") as writer:
         for sheet_name, value in data.items():

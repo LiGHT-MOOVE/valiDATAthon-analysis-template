@@ -9,11 +9,11 @@ project:
 
 paths:
   # Directory for this run's outputs, relative to the repository root.
-  outputs: outputs/eth
+  outputs: outputs/
 
   # Input CSV, relative to the repository root. Use the exact filename
   # created by preprocessing or use the merged CSV for a combined analysis.
-  analysis_file: data/processed/ethiopia_preprocessed_reviews.csv
+  analysis_file: data/processed/Kenya_preprocessed_reviews.csv
 
 cache:
   # Reuse cached computations when available. Set to false to disable caching.
@@ -40,25 +40,25 @@ analyses:
   # Keep these keys as written because the script uses them to select analyses.
 
   # Estimate adjusted mean scores for each response source.
-  adjusted_mean_score: true
+  adjusted_mean_score: false
 
   # Compare response sources pairwise on the configured safety outcome.
-  safety_pairwise_comparisons: true
+  safety_pairwise_comparisons: false
 
   # Summarize wins and losses in head-to-head comparisons.
   win_loss: true
 
   # Examine whether preference varies with the response display position.
-  position_effect: false
+  position_effect: true
 
   # Estimate agreement between reviewers who scored the same responses.
-  inter_rater_agreement: false
+  inter_rater_agreement: true
 
   # Estimate variance components for the ratings.
-  variance: false
+  variance: true
 
   # Summarize gaps between reviewers' scores for the same response.
-  gap_between_scores: false
+  gap_between_scores: true
 
 models:
   friendly_names:

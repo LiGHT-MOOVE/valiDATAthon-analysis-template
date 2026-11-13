@@ -133,7 +133,7 @@ def plot_gap_between_scores(
                 ha="left",
                 va="center",
                 fontsize=style.font_value,
-                color=style.country_colors[country],
+                color=style.country_colors.get(country, "#808080"),
                 fontweight="bold",
             )
 

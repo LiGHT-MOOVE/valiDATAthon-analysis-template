@@ -131,7 +131,11 @@ def compute_agreement_by_criterion(
         ratings_long = long_ratings(df_country, criteria)
 
         agreement_output = agreement_results(
-            ratings_long, criteria, irr_methods, irr_weight, confidence_level
+            ratings_long,
+            criteria,
+            irr_methods,
+            irr_weight,
+            confidence_level=confidence_level,
         )
 
         agreement_output["country"] = country
@@ -153,7 +157,7 @@ def compute_agreement_by_model(
         df_country = df[df["reviewer_country"] == country]
         ratings_long = long_ratings(df_country, criteria)
         agreement_output = agreement_results_by_model(
-            ratings_long, irr_methods, irr_weight, confidence_level
+            ratings_long, irr_methods, irr_weight, confidence_level=confidence_level
         )
 
         agreement_output["country"] = country
