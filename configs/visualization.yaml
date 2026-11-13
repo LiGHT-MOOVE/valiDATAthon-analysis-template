@@ -1,38 +1,64 @@
+# Figure configuration for scripts/05_generate_figures.py.
+# The script uses previously exported statistical results. 
+# Model categories are loaded from configs/analysis.yaml.
 project:
+  # Name of the valiDATAthon evaluation.
   name: clinical_ai_evaluation
 
+  # Short label for this run. The example uses "eth" for Ethiopia.
+  tag: eth
+
 paths:
+  # Base output directory and destination for generated figures.
+  # Set these paths relative to the repository root.
   outputs: outputs
-  figures: outputs/figures
-  
-  # input file for each statistical analysis
+  figures: outputs/eth/figures
+
+  # Point each enabled figure group to its statistical results files.
+  # Replace the example paths with the exact paths from your run,
+  # including any dated subdirectories, timestamps, and file extensions.
+  # Keep the group and result keys as written.
   analysis_inputs:
+    # Adjusted mean scores and pairwise safety comparisons.
     llm_performance:
-      adjusted_mean_score: outputs/docs/20261016/clinical_ai_evaluation_adjusted_mean_score_145158.xlsx
-      safety_pairwise_comparisons: outputs/docs/20261016/clinical_ai_evaluation_safety_pairwise_comparisons_145216.xlsx
+      adjusted_mean_score: outputs/eth/docs/20261112/clinical_ai_evaluation_adjusted_mean_score.xlsx
+      safety_pairwise_comparisons: outputs/eth/docs/20261112/clinical_ai_evaluation_safety_pairwise_comparisons.xlsx
+
+    # Head-to-head win–loss results.
     h2h_comparison:
-      win_loss: outputs/docs/20261016/clinical_ai_evaluation_win_loss_analysis_130055.xlsx
+      win_loss: outputs/docs/20261018/clinical_ai_evaluation_win_loss_analysis_153800.xlsx
+
+    # Inter-rater agreement estimates and variance components.
     irr_and_variance:
-      inter_rater_agreement: outputs/docs/20261016/clinical_ai_evaluation_inter_rater_agreement_130057.xlsx
-      variance: outputs/docs/20261016/clinical_ai_evaluation_variance_components_130300.xlsx
+      inter_rater_agreement: outputs/docs/20261016/clinical_ai_evaluation_inter_rater_agreement_145218.xlsx
+      variance: outputs/docs/20261016/clinical_ai_evaluation_variance_components_145417.xlsx
+
+    # Differences between reviewers' scores for the same response.
     consistency_of_scores_over_same_response:
-      gap_between_scores: outputs/docs/20261016/clinical_ai_evaluation_scores_gap_130301.xlsx
+      gap_between_scores: outputs/docs/20261016/clinical_ai_evaluation_scores_gap_145417.xlsx
+
+    # Results for the effect of response display position on preference.
     effect_of_response_display_position:
-      position_effect: outputs/docs/20261016/clinical_ai_evaluation_preferred_side_analysis_130057.xlsx
+      position_effect: outputs/docs/20261016/clinical_ai_evaluation_preferred_side_analysis_145218.xlsx
 
 plots:
-
+  # Set to true to save figures to paths.figures.
   save_outputs: true
+
+  # Export format and resolution. DPI controls raster output and any
+  # rasterized elements embedded in a PDF.
   format: pdf
   dpi: 300
+
+  # Use a tight bounding box to reduce whitespace around exported figures.
   bbox_inches: tight
 
-  # Default figure dimensions (in inches)
+  # Default figure dimensions in inches.
   figure:
     width: 10
     height: 6
 
-  # Font sizes (in points)
+  # Font family and text sizes in points.
   fonts:
     family: sans-serif
     title: 12
@@ -43,30 +69,31 @@ plots:
     annotation: 9
     panel_label: 12
 
-  # Country-specific colors
-
+  # Assign colors to the country keys used by the plotting code.
+  # Match spelling and capitalization. Keep hex color values quoted.
   countries:
     ethiopia: "#1C9487"
     Malawi: "#BE7325"
     Tanzania: "#424F8D"
 
-  # Colors for general comparisons
+  # Colors for positive, neutral, and negative comparison results.
   comparisons:
     positive: "#217B3B"
     neutral: "#C7C6C1"
     negative: "#772B83"
 
-  # Other reusable colors
+  # Shared colors for plot elements and grid lines.
   general:
     primary: "#105091"
     secondary: "#7C7F82"
     grid: "#D9D9D9"
 
-  # Select which figures to generate
+  # Set a figure group to true once its required results files are available.
+  # Set it to false if you want to skip it. For example, disable
+  # irr_and_variance if you did not run agreement and variance analyses.
   analyses:
     llm_performance: true
-    h2h_comparison: false
-    irr_and_variance: false
-    consistency_of_scores_over_same_response: false
-    effect_of_response_display_position: false
-
+    h2h_comparison: true
+    irr_and_variance: true
+    consistency_of_scores_over_same_response: true
+    effect_of_response_display_position: true

@@ -140,21 +140,14 @@ def run_inter_rater_agreement_analysis(
 ):
     agreement_methods = config.irr_methods
     agreement_weight = config.irr_weight
+    confidence_level = config.confidence_level
 
     irr_by_criterion = compute_agreement_by_criterion(
-        df,
-        countries,
-        criteria,
-        agreement_methods,
-        agreement_weight,
+        df, countries, criteria, agreement_methods, agreement_weight, confidence_level
     )
 
     irr_by_model = compute_agreement_by_model(
-        df,
-        countries,
-        criteria,
-        agreement_methods,
-        agreement_weight,
+        df, countries, criteria, agreement_methods, agreement_weight, confidence_level
     )
 
     export_excel(

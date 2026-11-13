@@ -36,12 +36,6 @@ With Conda installed, open a terminal in the repository root, where
    python -m pip install -r requirements.txt
    ```
 
-If the repository includes Python packaging metadata, install the local project in
-editable mode so the scripts can import modules from `src/`.
-
-```bash
-python -m pip install -e .
-```
 
 Activate `validatathon` again when you open a new terminal to run the analysis.
 
@@ -156,7 +150,7 @@ python scripts/03_descriptive_analysis.py
 | `paths.outputs` | Output directory for this analysis run. |
 | `analyses` | Which statistical analyses run. Set each entry to `true` or `false`. |
 | `analysis` | Safety score column, output saving, bootstrap seed, and confidence level. |
-| `cache` | Whether to cache computations and where to store the cache. |
+| `cache` | Whether to cache computations and where to store the cache. (CACHE NOT IMPLEMENTED YET) |
 | `models`, `criteria`, and `countries` | Model labels and categories, criterion labels and order, and country labels and order. |
 | `agreement` | Agreement methods and weighting when inter-rater agreement is enabled. |
 

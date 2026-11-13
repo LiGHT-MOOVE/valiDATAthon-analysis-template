@@ -1,14 +1,29 @@
+# Base configuration for valiDATAthon preprocessing and optional merging.
+# For a new study, update the country entries and check that the input
+# filenames match your exports exactly, including capitalization.
+
 project:
+  # Short name for your study or evaluation project.
   name: clinical_ai_evaluation3
-  random_seed: 42
 
 paths:
+  # Directory paths are relative to the repository root.
+
+  # Place the original Answers and Reviews CSV exports here.
   raw_data: data/raw
+
+  # Preprocessing writes cleaned review CSVs and diagnostics here.
+  # The optional merge step also writes its combined CSV here.
   processed_data: data/processed
+
+  # Base directory for generated outputs.
   outputs: outputs
 
 data:
+  # Add one entry per country you want to preprocess, could be one country.
   countries:
+    # The country name is used to identify the dataset and name its outputs.
+    # The answers and reviews entries are filenames inside paths.raw_data.
     - name: Kenya
       answers: Kenya PHC mini - Answers.csv
       reviews: Kenya PHC mini - Reviews.csv
@@ -22,14 +37,12 @@ data:
       reviews: Tanzania PHC mini - Reviews.csv
 
 merge:
-  # Input paths are relative to the repository root.
+  # Optional (belongs to scripts/02b_merge_processed_data.py). 
+  # Use this section to combine preprocessed reviews across countries.
+  # Run preprocessing (scripts/02_preprocess_data.py) for each country you plan to include,
+  # then list the resulting CSVs below in the order you want their rows appended.
+  # Paths are relative to the repository root. The example merges country1
+  # and country2.
   inputs:
     - data/processed/Kenya_preprocessed_reviews.csv
     - data/processed/Malawi_preprocessed_reviews.csv
-
-analysis:
-  confidence_level: 0.95
-
-visualization:
-  format: pdf
-  dpi: 300

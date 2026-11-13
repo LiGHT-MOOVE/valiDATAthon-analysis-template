@@ -38,11 +38,6 @@ class AnalysisConfig:
 
     # Criterion configuration
     friendly_criteria: Mapping[str, str] = field(default_factory=dict)
-    order_of_criteria: tuple[str, ...] = ()
-
-    # Country configuration
-    friendly_countries: Mapping[str, str] = field(default_factory=dict)
-    order_of_countries: tuple[str, ...] = ()
 
     # Agreement configuration
     irr_weight: str = "linear"
@@ -91,7 +86,6 @@ def load_analysis_config() -> AnalysisConfig:
 
     models = config.get("models", {})
     criteria = config.get("criteria", {})
-    countries = config.get("countries", {})
 
     return AnalysisConfig(
         # Project and paths
@@ -104,7 +98,7 @@ def load_analysis_config() -> AnalysisConfig:
         save_outputs=analysis.get("save_outputs", True),
         bootstrap_seed=analysis.get(
             "bootstrap_seed",
-            project.get("random_seed", 42),
+            42,
         ),
         confidence_level=analysis.get("confidence_level", 0.95),
         # Cache settings
@@ -115,10 +109,6 @@ def load_analysis_config() -> AnalysisConfig:
         model_categories=models.get("categories", {}),
         # Criterion configuration
         friendly_criteria=criteria.get("friendly_names", {}),
-        order_of_criteria=tuple(criteria.get("order", [])),
-        # Country configuration
-        friendly_countries=countries.get("friendly_names", {}),
-        order_of_countries=tuple(countries.get("order", [])),
         # Agreement configuration
         irr_weight=agreement.get("weight", "linear"),
         irr_methods=agreement.get("methods", {}),

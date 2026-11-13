@@ -18,6 +18,7 @@ def agreement_results_by_model(
     irr_methods,
     irr_weight,
     categories: Sequence[int] = (-2, -1, 0, 1, 2),
+    confidence_level=0.95,
 ) -> pd.DataFrame:
     rows = []
 
@@ -49,7 +50,7 @@ def agreement_results_by_model(
                 ratings=ratings,
                 weights=irr_weight,
                 categories=list(categories),
-                confidence_level=0.95,
+                confidence_level=confidence_level,
                 digits=8,
             )
             estimate = getattr(cac, method)()["est"]
@@ -79,6 +80,7 @@ def agreement_results(
     irr_methods,
     irr_weight,
     categories: Sequence[int] = (-2, -1, 0, 1, 2),
+    confidence_level=0.95,
 ) -> pd.DataFrame:
     rows = []
     for criterion in criteria:
@@ -96,7 +98,7 @@ def agreement_results(
                 ratings=ratings,
                 weights=irr_weight,
                 categories=list(categories),
-                confidence_level=0.95,
+                confidence_level=confidence_level,
                 digits=8,
             )
             estimate = getattr(cac, method)()["est"]
@@ -119,7 +121,9 @@ def agreement_results(
     return pd.DataFrame(rows)
 
 
-def compute_agreement_by_criterion(df, countries, criteria, irr_methods, irr_weight):
+def compute_agreement_by_criterion(
+    df, countries, criteria, irr_methods, irr_weight, confidence_level
+):
     agreement_all = []
 
     for country in countries:
@@ -127,7 +131,7 @@ def compute_agreement_by_criterion(df, countries, criteria, irr_methods, irr_wei
         ratings_long = long_ratings(df_country, criteria)
 
         agreement_output = agreement_results(
-            ratings_long, criteria, irr_methods, irr_weight
+            ratings_long, criteria, irr_methods, irr_weight, confidence_level
         )
 
         agreement_output["country"] = country
@@ -141,13 +145,15 @@ def compute_agreement_by_criterion(df, countries, criteria, irr_methods, irr_wei
     return agreement_plot_data_by_criterion
 
 
-def compute_agreement_by_model(df, countries, criteria, irr_methods, irr_weight):
+def compute_agreement_by_model(
+    df, countries, criteria, irr_methods, irr_weight, confidence_level
+):
     agreement_all_by_model = []
     for country in countries:
         df_country = df[df["reviewer_country"] == country]
         ratings_long = long_ratings(df_country, criteria)
         agreement_output = agreement_results_by_model(
-            ratings_long, irr_methods, irr_weight
+            ratings_long, irr_methods, irr_weight, confidence_level
         )
 
         agreement_output["country"] = country

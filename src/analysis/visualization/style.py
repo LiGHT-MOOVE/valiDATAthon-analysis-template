@@ -27,7 +27,7 @@ class PlotStyle:
     font_tick: int = 9
     font_legend: int = 9
     font_value: int = 9
-
+    font_family: str = "sans-serif"
     primary_color: str = "#105091"
     secondary_color: str = "#7C7F82"
     grid_color: str = "#D9D9D9"

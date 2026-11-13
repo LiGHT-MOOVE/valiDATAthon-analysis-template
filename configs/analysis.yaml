@@ -1,33 +1,70 @@
+# Analysis settings for a valiDATAthon project.
+# For a new study, update the input and output paths, select the analyses
+# you want to run, and check that the model, criterion, and country keys
+# match the values in your dataset.
+
 project:
+  # Project name used to identify this analysis.
   name: clinical_ai_evaluation
-  random_seed: 42
 
 paths:
+  # Directory for this run's outputs, relative to the repository root.
   outputs: outputs/eth
+
+  # Input CSV, relative to the repository root. Use the exact filename
+  # created by preprocessing or use the merged CSV for a combined analysis.
   analysis_file: data/processed/ethiopia_preprocessed_reviews.csv
 
 cache:
+  # Reuse cached computations when available. Set to false to disable caching.
   enabled: true
   directory: "outputs/cache"
-  
+
 analysis:
+  # Exact column name used as the safety outcome.
   safety_var: safety_score
+
+  # Save the statistical results to disk.
   save_outputs: true
+
+  # Random seed for bootstrap resampling. Keep it fixed to reproduce
+  # bootstrap results with the same data and analysis settings.
   bootstrap_seed: 42
+
+  # Confidence level for interval estimates, expressed as a proportion.
+  # A value of 0.95 requests 95% confidence intervals.
   confidence_level: 0.95
-  
+
 analyses:
+  # Set each analysis to true to run it or false to skip it.
+  # Keep these keys as written because the script uses them to select analyses.
+
+  # Estimate adjusted mean scores for each response source.
   adjusted_mean_score: true
+
+  # Compare response sources pairwise on the configured safety outcome.
   safety_pairwise_comparisons: true
+
+  # Summarize wins and losses in head-to-head comparisons.
   win_loss: true
+
+  # Examine whether preference varies with the response display position.
   position_effect: false
+
+  # Estimate agreement between reviewers who scored the same responses.
   inter_rater_agreement: false
+
+  # Estimate variance components for the ratings.
   variance: false
+
+  # Summarize gaps between reviewers' scores for the same response.
   gap_between_scores: false
 
 models:
   friendly_names:
-    #Human Benchmark: Human Benchmark
+    # Map the exact model name in the input data to its display label.
+    # Uncomment the Human Benchmark entry if that source is in your data.
+    # Human Benchmark: Human Benchmark
     Apertus-MeditronFO: Apertus-Meditron
     Qwen3 235B: Qwen 3
     MedGemma 27B: MedGemma
@@ -36,7 +73,9 @@ models:
     GPT-5.5: GPT-5.5
 
   categories:
-    #Human Benchmark: Human
+    # Assign a category using the display label from friendly_names.
+    # If you change a display label above, update the matching key here.
+    # Human Benchmark: Human
     Apertus-Meditron: Fully Open
     Qwen 3: Open
     MedGemma: Open
@@ -45,13 +84,7 @@ models:
     GPT-5.5: Closed
 
 criteria:
-  order:
-    - clinical_soundness_score
-    - safety_score
-    - contextual_fit_score
-    - clarity_and_completeness_score
-    - appropriate_confidence_score
-
+  # Map each score column to its display label.
   friendly_names:
     clinical_soundness_score: Clinical soundness
     safety_score: Safety
@@ -59,14 +92,13 @@ criteria:
     clarity_and_completeness_score: Clarity and completeness
     appropriate_confidence_score: Appropriate confidence
 
-countries:
-  order:
-    - ethiopia
-
-  friendly_names:
-    ethiopia: Ethiopia
 agreement:
+  # These settings apply when analyses.inter_rater_agreement is true.
+  # Linear weighting makes the penalty proportional to the distance
+  # between rating categories.
   weight: linear
+
+  # Map each agreement statistic to the method identifier used by the code.
   methods:
     "gwet_ac2": gwet
     "krippendorff_alpha": krippendorff
